@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>killerwhales_user | Validator Identity</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="https://res.cloudinary.com/dcrod1pop/image/upload/v1764266496/IMG_0035_rg6et1.jpg">
+    <link rel="shortcut icon" href="https://res.cloudinary.com/dcrod1pop/image/upload/v1764266496/IMG_0035_rg6et1.jpg">
+    <link rel="apple-touch-icon" href="https://res.cloudinary.com/dcrod1pop/image/upload/v1764266496/IMG_0035_rg6et1.jpg">
+    
+    <!-- Structured Data for Google -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "killerwhales_user",
+      "url": "https://killerwhalesresearcher.xyz",
+      "logo": "https://res.cloudinary.com/dcrod1pop/image/upload/v1764266496/IMG_0035_rg6et1.jpg"
+    }
+    </script>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;600&family=Syncopate:wght@400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg: #050505;
+            --text-main: #ffffff;
+            --text-muted: #888888;
+            --accent: #ffffff;
+            --glass: rgba(255, 255, 255, 0.03);
+            --border: rgba(255, 255, 255, 0.08);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            font-family: 'Manrope', sans-serif;
+            overflow-x: hidden;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        /* --- BACKGROUND FLUID EFFECT (CSS ONLY) --- */
+        .ambient-light {
+            position: fixed;
+            top: 50%; left: 50%;
+            width: 150vw; height: 150vw;
+            background: radial-gradient(circle, rgba(60, 20, 180, 0.15) 0%, rgba(0,0,0,0) 60%);
+            transform: translate(-50%, -50%);
+            z-index: -2;
+            animation: pulse-light 10s infinite alternate;
+        }
+
+        .noise-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E");
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* --- LAYOUT --- */
+        .wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+            width: 100%;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* 1. HEADER */
+        nav {
+            display: flex; justify-content: space-between; align-items: center;
+            margin-bottom: 8rem;
+            padding-bottom: 1.5rem;
+        }
+
+        .brand {
+            font-family: 'Syncopate', sans-serif;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 1.2rem;
+        }
+
+        .status-indicator {
+            display: flex; align-items: center; gap: 8px;
+            font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted);
+        }
+        .dot { width: 6px; height: 6px; background: #fff; border-radius: 50%; box-shadow: 0 0 10px rgba(255,255,255,0.8); }
+
+        /* 2. HERO SECTION */
+        .hero {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 4rem;
+            align-items: flex-end;
+            margin-bottom: 6rem;
+        }
+
+        h1 {
+            font-family: 'Manrope', sans-serif;
+            font-weight: 300;
+            font-size: clamp(2.5rem, 5vw, 4.5rem);
+            line-height: 1.1;
+            letter-spacing: -1px;
+            background: linear-gradient(to right, #fff, #888);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-desc {
+            font-size: 1rem; color: var(--text-muted); line-height: 1.8;
+            border-left: 1px solid var(--border);
+            padding-left: 2rem;
+        }
+
+        /* 3. DATA BLOCKS (The Addresses) */
+        .data-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1px;
+            background: var(--border);
+            border: 1px solid var(--border);
+        }
+
+        .data-card {
+            background: var(--bg);
+            padding: 2.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 180px;
+            transition: background 0.4s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .data-card:hover {
+            background: #0a0a0a;
+        }
+
+        .data-card::before {
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 2px;
+            background: #fff; transform: scaleX(0); transform-origin: left; transition: transform 0.4s ease;
+        }
+        .data-card:hover::before { transform: scaleX(1); }
+
+        .card-label {
+            font-family: 'Syncopate', sans-serif;
+            font-size: 0.7rem; color: var(--text-muted);
+            text-transform: uppercase; margin-bottom: 1rem;
+        }
+
+        .card-value {
+            font-family: 'Manrope', sans-serif;
+            font-size: 1.2rem; color: #fff;
+            word-break: break-all;
+        }
+
+        .card-meta {
+            margin-top: auto; padding-top: 1rem;
+            font-size: 0.75rem; color: #444;
+            display: flex; justify-content: space-between;
+        }
+
+        /* SUPPORT NETWORKS BUTTON */
+        .networks-trigger {
+            margin-top: 4rem;
+            text-align: center;
+        }
+
+        .networks-btn {
+            font-family: 'Syncopate', sans-serif;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            padding: 1.5rem 3rem;
+            border: 2px solid var(--border);
+            background: transparent;
+            color: var(--text-main);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            animation: pulse-glow 2s infinite;
+        }
+
+        .networks-btn:hover {
+            border-color: rgba(255, 255, 255, 0.5);
+            transform: scale(1.05);
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% { 
+                box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+                text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+            }
+            50% { 
+                box-shadow: 0 0 40px rgba(255, 255, 255, 0.3);
+                text-shadow: 0 0 20px rgba(255, 255, 255, 0.6);
+            }
+        }
+
+        /* COSMOS UNIVERSE OVERLAY */
+        .cosmos-overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(ellipse at center, #0a0a2e 0%, #000000 100%);
+            z-index: 9999;
+            display: none;
+            opacity: 0;
+            transition: opacity 0.8s ease;
+        }
+
+        .cosmos-overlay.active {
+            display: block;
+            opacity: 1;
+        }
+
+        /* Space background with stars */
+        .space-bg {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-image: 
+                radial-gradient(2px 2px at 20% 30%, white, transparent),
+                radial-gradient(2px 2px at 60% 70%, white, transparent),
+                radial-gradient(1px 1px at 50% 50%, white, transparent),
+                radial-gradient(1px 1px at 80% 10%, white, transparent),
+                radial-gradient(2px 2px at 90% 60%, white, transparent),
+                radial-gradient(1px 1px at 33% 80%, white, transparent),
+                radial-gradient(1px 1px at 15% 85%, white, transparent);
+            background-size: 200% 200%;
+            animation: twinkle 3s infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* Close button */
+        .close-cosmos {
+            position: absolute;
+            top: 2rem; right: 2rem;
+            width: 50px; height: 50px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 10001;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+        }
+
+        .close-cosmos:hover {
+            border-color: rgba(255, 255, 255, 0.8);
+            background: rgba(255, 255, 255, 0.1);
+            transform: rotate(90deg);
+        }
+
+        .close-cosmos::before,
+        .close-cosmos::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 2px;
+            background: white;
+        }
+
+        .close-cosmos::before { transform: rotate(45deg); }
+        .close-cosmos::after { transform: rotate(-45deg); }
+
+        /* Cosmos center */
+        .cosmos-center {
+            position: absolute;
+            top: 50%; left: 50%;
+            width: 120px; height: 120px;
+            transform: translate(-50%, -50%);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(100, 50, 255, 0.3), transparent);
+            box-shadow: 0 0 60px rgba(100, 50, 255, 0.5);
+            animation: pulse-center 3s infinite;
+        }
+
+        @keyframes pulse-center {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); }
+            50% { transform: translate(-50%, -50%) scale(1.1); }
+        }
+
+        .cosmos-center::before {
+            content: 'COSMOS';
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: 'Syncopate', sans-serif;
+            font-size: 0.7rem;
+            letter-spacing: 2px;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        /* Network nodes */
+        .network-node {
+            position: absolute;
+            top: 50%; left: 50%;
+            width: 100px; height: 100px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            animation: orbit 20s linear infinite;
+        }
+
+        .network-node:hover {
+            transform: scale(1.2);
+            z-index: 100;
+        }
+
+        .network-node img {
+            width: 70px; height: 70px;
+            border-radius: 50%;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.5);
+            transition: all 0.3s ease;
+        }
+
+        .network-node:hover img {
+            border-color: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 0 50px rgba(255, 255, 255, 0.9);
+        }
+
+        .network-label {
+            position: absolute;
+            bottom: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.7rem;
+            color: rgba(255, 255, 255, 0.7);
+            text-align: center;
+            white-space: nowrap;
+            font-family: 'Manrope', sans-serif;
+        }
+
+        .network-type {
+            font-size: 0.6rem;
+            color: rgba(255, 255, 255, 0.4);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Orbit animation for initial circle */
+        @keyframes orbit {
+            from { transform: rotate(0deg) translateX(250px) rotate(0deg); }
+            to { transform: rotate(360deg) translateX(250px) rotate(-360deg); }
+        }
+
+        /* Final positions after spreading */
+        .network-node.positioned {
+            animation: none !important;
+        }
+
+        /* MODAL */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 10002;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(10px);
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: linear-gradient(135deg, #1a1a2e 0%, #0a0a0a 100%);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            padding: 3rem;
+            border-radius: 10px;
+            max-width: 500px;
+            width: 90%;
+            position: relative;
+            box-shadow: 0 0 60px rgba(100, 50, 255, 0.3);
+        }
+
+        .modal-title {
+            font-family: 'Syncopate', sans-serif;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 1rem;
+            color: var(--text-main);
+            text-align: center;
+        }
+
+        .modal-message {
+            font-size: 0.95rem;
+            color: var(--text-muted);
+            line-height: 1.8;
+            margin-bottom: 2rem;
+            text-align: center;
+        }
+
+        .modal-url {
+            font-size: 0.75rem;
+            color: #fff;
+            word-break: break-all;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 1rem;
+            border-radius: 8px;
+            margin-bottom: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .modal-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+        }
+
+        .modal-btn {
+            font-family: 'Syncopate', sans-serif;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 1rem 2.5rem;
+            border: 2px solid var(--border);
+            background: transparent;
+            color: var(--text-main);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-radius: 5px;
+        }
+
+        .modal-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.5);
+            transform: translateY(-2px);
+        }
+
+        .modal-btn.primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-color: #667eea;
+        }
+
+        .modal-btn.primary:hover {
+            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        /* 4. FOOTER */
+        footer {
+            padding: 2rem;
+            text-align: center;
+            font-size: 0.75rem; color: #888;
+            text-transform: uppercase; letter-spacing: 2px;
+            margin-top: auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .telegram-logo {
+            width: 20px;
+            height: 20px;
+            opacity: 0.4;
+            transition: opacity 0.3s ease;
+            cursor: pointer;
+        }
+
+        .telegram-logo:hover {
+            opacity: 1;
+        }
+
+        /* ANIMATIONS */
+        @keyframes pulse-light {
+            0% { transform: translate(-50%, -50%) scale(1); opacity: 0.1; }
+            100% { transform: translate(-50%, -50%) scale(1.1); opacity: 0.2; }
+        }
+
+        .fade-in {
+            opacity: 0; transform: translateY(20px);
+            animation: fadeUp 1s ease forwards;
+        }
+        .delay-1 { animation-delay: 0.2s; }
+        .delay-2 { animation-delay: 0.4s; }
+
+        @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .hero { grid-template-columns: 1fr; gap: 2rem; }
+            .hero-desc { border-left: none; padding-left: 0; border-top: 1px solid var(--border); padding-top: 2rem; }
+            h1 { font-size: 2.2rem; }
+            .data-card { padding: 1.5rem; min-height: auto; }
+            .wrapper { padding: 2rem 1.5rem; }
+            nav { margin-bottom: 4rem; }
+            .networks-btn { padding: 1rem 2rem; font-size: 0.75rem; }
+            .modal-content { padding: 2rem; }
+            .modal-buttons { flex-direction: column; }
+            .modal-btn { width: 100%; }
+            .cosmos-center { width: 80px; height: 80px; }
+            .network-node img { width: 50px; height: 50px; }
+            @keyframes orbit {
+                from { transform: rotate(0deg) translateX(150px) rotate(0deg); }
+                to { transform: rotate(360deg) translateX(150px) rotate(-360deg); }
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="noise-overlay"></div>
+    <div class="ambient-light"></div>
+
+    <div class="wrapper">
+        
+        <nav class="fade-in">
+            <div class="brand">killerwhales_user</div>
+            <div class="status-indicator">
+                <div class="dot"></div>
+                System Active
+            </div>
+        </nav>
+
+        <main class="hero">
+            <h1 class="fade-in delay-1">
+                Immutable infrastructure for decentralized consensus.
+            </h1>
+            <div class="hero-desc fade-in delay-1">
+                Operating high-availability validator nodes. <br>
+                Secured by institutional-grade hardware.<br>
+                Committed to network uptime and integrity.
+            </div>
+        </main>
+
+        <section class="data-grid fade-in delay-2">
+            
+            <div class="data-card">
+                <div>
+                    <div class="card-label">01 // Processing Center</div>
+                    <div class="card-value">
+                        <a href="https://ordinals.com/inscription/52199732cdedfdb6bef0b6cead32ed9389beb14e40bb554eda6a812f773fac12i0" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: none;">
+                            killerwhales.sats
+                        </a>
+                    </div>
+                </div>
+                <div class="card-meta">
+                    <span>STATUS: PRIVATE</span>
+                    <span>TYPE: CORE</span>
+                </div>
+            </div>
+
+            <div class="data-card">
+                <div>
+                    <div class="card-label">02 // Research Lab</div>
+                    <div class="card-value">
+                        <a href="https://ordinals.com/inscription/3de542702e8f24ee4c40ece613a49aa0147cfbb772ca88abf68039a3497f123di0" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: none;">
+                            killerwhaleslabs.sats
+                        </a>
+                    </div>
+                </div>
+                <div class="card-meta">
+                    <span>STATUS: PRIVATE</span>
+                    <span>TYPE: DEV</span>
+                </div>
+            </div>
+
+            <div class="data-card">
+                <div>
+                    <div class="card-label">03 // Current Version</div>
+                    <div class="card-value">v.4.2.0</div>
+                </div>
+                <div class="card-meta">
+                    <span>BUILD: STABLE</span>
+                    <span>REGION: GLOBAL</span>
+                </div>
+            </div>
+
+        </section>
+
+        <div class="networks-trigger fade-in delay-2">
+            <button class="networks-btn" onclick="openCosmos()">
+                ✦ SUPPORTED NETWORKS ✦
+            </button>
+        </div>
+
+    </div>
+
+    <!-- COSMOS UNIVERSE OVERLAY -->
+    <div class="cosmos-overlay" id="cosmosOverlay">
+        <div class="space-bg"></div>
+        <div class="close-cosmos" onclick="closeCosmos()"></div>
+        <div class="cosmos-center"></div>
+        <div id="networkContainer"></div>
+    </div>
+
+    <!-- MODAL -->
+    <div class="modal" id="linkModal">
+        <div class="modal-content">
+            <div class="modal-title">🚀 Entering Hyperspace</div>
+            <div class="modal-message">
+                Ready to explore <strong id="networkName"></strong>?<br>
+                This portal will transport you to the network explorer.
+            </div>
+            <div class="modal-url" id="modalUrl"></div>
+            <div class="modal-buttons">
+                <button class="modal-btn" onclick="closeModal()">Stay Here</button>
+                <button class="modal-btn primary" onclick="confirmLink()">Launch 🚀</button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <a href="https://t.me/killerwhales_user" target="_blank" rel="noopener noreferrer">
+            <svg class="telegram-logo" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM16.64 8.8C16.49 10.38 15.84 14.22 15.51 15.99C15.37 16.74 15.09 16.99 14.83 17.02C14.25 17.07 13.81 16.64 13.25 16.27C12.37 15.69 11.87 15.33 11.02 14.77C10.03 14.12 10.67 13.76 11.24 13.18C11.39 13.03 13.95 10.7 14 10.49C14.0069 10.4582 14.006 10.4252 13.9973 10.3938C13.9886 10.3624 13.9724 10.3337 13.95 10.31C13.89 10.26 13.81 10.28 13.74 10.29C13.65 10.31 12.25 11.24 9.52 13.08C9.12 13.35 8.76 13.49 8.44 13.48C8.08 13.47 7.4 13.28 6.89 13.11C6.26 12.91 5.77 12.8 5.81 12.45C5.83 12.27 6.08 12.09 6.55 11.9C9.47 10.63 11.41 9.79 12.38 9.39C15.16 8.23 15.73 8.03 16.11 8.03C16.19 8.03 16.38 8.05 16.5 8.15C16.6 8.23 16.63 8.34 16.64 8.42C16.63 8.48 16.65 8.66 16.64 8.8Z" fill="white"/>
+            </svg>
+        </a>
+        KILLERWHALES_USER INFRASTRUCTURE
+    </footer>
+
+    <script>
+        const networks = [
+            {
+                name: 'Lumera Network',
+                type: 'Testnet',
+                logo: 'https://raw.githubusercontent.com/cosmos/chain-registry/master/testnets/lumeratestnet/images/lumera.png',
+                url: 'https://testnet.ping.pub/lumera/staking/lumeravaloper1q2vr2027lmczswdtpu6lfwk43g7qagxqnf4z8f'
+            },
+            {
+                name: 'Empeiria Network',
+                type: 'Testnet',
+                logo: 'https://raw.githubusercontent.com/cosmos/chain-registry/master/testnets/empeiriatestnets/images/empeiria.png',
+                url: 'https://testnet.itrocket.net/empeiria/staking/empevaloper17mtrepwqcx058pph67qa8xhe73j5gkyln6eshu'
+            },
+            {
+                name: 'Paxi Network',
+                type: 'Mainnet',
+                logo: 'https://raw.githubusercontent.com/cosmos/chain-registry/master/paxi/images/paxi.png',
+                url: 'https://ping.pub/paxi/staking/paxivaloper125lpqewly7zlr0k5yqyk2kqk964r658f25wwt4'
+            },
+            {
+                name: 'BitBadges Network',
+                type: 'Mainnet',
+                logo: 'https://raw.githubusercontent.com/cosmos/chain-registry/master/bitbadges/images/bitbadgeslogo.png',
+                url: 'https://explorer.maouam.xyz/bitbadges-mainnet/staking/bbvaloper1y9ry9xj6xq348jzx54wqd5um8nny7a45nj2c44'
+            }
+        ];
+
+        let currentLink = '';
+        let animationTimeout;
+
+        function openCosmos() {
+            const overlay = document.getElementById('cosmosOverlay');
+            const container = document.getElementById('networkContainer');
+            
+            overlay.classList.add('active');
+            container.innerHTML = '';
+            
+            // Create network nodes
+            networks.forEach((network, index) => {
+                const node = document.createElement('div');
+                node.className = 'network-node';
+                node.style.animationDelay = `${index * 0.5}s`;
+                node.innerHTML = `
+                    <img src="${network.logo}" alt="${network.name}">
+                    <div class="network-label">
+                        ${network.name}<br>
+                        <span class="network-type">${network.type}</span>
+                    </div>
+                `;
+                node.onclick = () => openModal(network.name, network.url);
+                container.appendChild(node);
+            });
+
+            // After orbiting, spread them out to fixed positions
+            animationTimeout = setTimeout(() => {
+                spreadNetworks();
+            }, 3000);
+        }
+
+        function spreadNetworks() {
+            const nodes = document.querySelectorAll('.network-node');
+            const positions = [
+                { top: '20%', left: '20%' },
+                { top: '20%', left: '75%' },
+                { top: '70%', left: '20%' },
+                { top: '70%', left: '75%' }
+            ];
+
+            nodes.forEach((node, index) => {
+                node.classList.add('positioned');
+                node.style.top = positions[index].top;
+                node.style.left = positions[index].left;
+                node.style.transform = 'translate(-50%, -50%)';
+                node.style.transition = 'all 1.5s cubic-bezier(0.34, 1.56, 0.64, 1)';
+            });
+        }
+
+        function closeCosmos() {
+            const overlay = document.getElementById('cosmosOverlay');
+            overlay.classList.remove('active');
+            clearTimeout(animationTimeout);
+        }
+
+        function openModal(networkName, url) {
+            currentLink = url;
+            document.getElementById('networkName').textContent = networkName;
+            document.getElementById('modalUrl').textContent = url;
+            document.getElementById('linkModal').classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('linkModal').classList.remove('active');
+            currentLink = '';
+        }
+
+        function confirmLink() {
+            if (currentLink) {
+                window.open(currentLink, '_blank', 'noopener,noreferrer');
+                closeModal();
+            }
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('linkModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
+            }
+        });
+
+        // Close modal with ESC key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                if (document.getElementById('linkModal').classList.contains('active')) {
+                    closeModal();
+                } else if (document.getElementById('cosmosOverlay').classList.contains('active')) {
+                    closeCosmos();
+                }
+            }
+        });
+    </script>
+
+</body>
+</html>
