@@ -128,7 +128,6 @@
             gap: 1px;
             background: var(--border);
             border: 1px solid var(--border);
-            margin-bottom: 4rem;
         }
 
         .data-card {
@@ -171,77 +170,203 @@
             display: flex; justify-content: space-between;
         }
 
-        /* 4. NETWORK SUPPORT SECTION */
-        .network-section {
-            margin-top: 6rem;
+        /* SUPPORT NETWORKS BUTTON */
+        .networks-trigger {
+            margin-top: 4rem;
+            text-align: center;
         }
 
-        .network-header {
+        .networks-btn {
             font-family: 'Syncopate', sans-serif;
-            font-size: 0.8rem;
-            color: var(--text-muted);
+            font-size: 0.9rem;
             text-transform: uppercase;
-            letter-spacing: 2px;
-            margin-bottom: 2rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .network-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 2rem;
-            margin-bottom: 4rem;
-        }
-
-        .network-card {
-            background: var(--glass);
-            border: 1px solid var(--border);
-            padding: 2rem;
-            border-radius: 4px;
-            transition: all 0.4s ease;
+            letter-spacing: 3px;
+            padding: 1.5rem 3rem;
+            border: 2px solid var(--border);
+            background: transparent;
+            color: var(--text-main);
             cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            transition: all 0.4s ease;
+            animation: pulse-glow 2s infinite;
+        }
+
+        .networks-btn:hover {
+            border-color: rgba(255, 255, 255, 0.5);
+            transform: scale(1.05);
+        }
+
+        @keyframes pulse-glow {
+            0%, 100% { 
+                box-shadow: 0 0 20px rgba(255, 255, 255, 0.1);
+                text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+            }
+            50% { 
+                box-shadow: 0 0 40px rgba(255, 255, 255, 0.3);
+                text-shadow: 0 0 20px rgba(255, 255, 255, 0.6);
+            }
+        }
+
+        /* COSMOS UNIVERSE OVERLAY */
+        .cosmos-overlay {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(ellipse at center, #0a0a2e 0%, #000000 100%);
+            z-index: 9999;
+            display: none;
+            opacity: 0;
+            transition: opacity 0.8s ease;
+        }
+
+        .cosmos-overlay.active {
+            display: block;
+            opacity: 1;
+        }
+
+        /* Space background with stars */
+        .space-bg {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background-image: 
+                radial-gradient(2px 2px at 20% 30%, white, transparent),
+                radial-gradient(2px 2px at 60% 70%, white, transparent),
+                radial-gradient(1px 1px at 50% 50%, white, transparent),
+                radial-gradient(1px 1px at 80% 10%, white, transparent),
+                radial-gradient(2px 2px at 90% 60%, white, transparent),
+                radial-gradient(1px 1px at 33% 80%, white, transparent),
+                radial-gradient(1px 1px at 15% 85%, white, transparent);
+            background-size: 200% 200%;
+            animation: twinkle 3s infinite;
+        }
+
+        @keyframes twinkle {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+
+        /* Close button */
+        .close-cosmos {
+            position: absolute;
+            top: 2rem; right: 2rem;
+            width: 50px; height: 50px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 50%;
+            cursor: pointer;
+            z-index: 10001;
             display: flex;
             align-items: center;
-            gap: 1.5rem;
+            justify-content: center;
+            transition: all 0.3s ease;
         }
 
-        .network-card:hover {
-            background: rgba(255, 255, 255, 0.06);
-            border-color: rgba(255, 255, 255, 0.2);
-            transform: translateY(-2px);
+        .close-cosmos:hover {
+            border-color: rgba(255, 255, 255, 0.8);
+            background: rgba(255, 255, 255, 0.1);
+            transform: rotate(90deg);
         }
 
-        .network-logo {
-            width: 60px;
-            height: 60px;
+        .close-cosmos::before,
+        .close-cosmos::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 2px;
+            background: white;
+        }
+
+        .close-cosmos::before { transform: rotate(45deg); }
+        .close-cosmos::after { transform: rotate(-45deg); }
+
+        /* Cosmos center */
+        .cosmos-center {
+            position: absolute;
+            top: 50%; left: 50%;
+            width: 120px; height: 120px;
+            transform: translate(-50%, -50%);
+            border: 2px solid rgba(255, 255, 255, 0.2);
             border-radius: 50%;
-            object-fit: cover;
-            border: 2px solid var(--border);
-            transition: border-color 0.4s ease;
+            background: radial-gradient(circle, rgba(100, 50, 255, 0.3), transparent);
+            box-shadow: 0 0 60px rgba(100, 50, 255, 0.5);
+            animation: pulse-center 3s infinite;
         }
 
-        .network-card:hover .network-logo {
-            border-color: rgba(255, 255, 255, 0.4);
+        @keyframes pulse-center {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); }
+            50% { transform: translate(-50%, -50%) scale(1.1); }
         }
 
-        .network-info {
-            flex: 1;
+        .cosmos-center::before {
+            content: 'COSMOS';
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: 'Syncopate', sans-serif;
+            font-size: 0.7rem;
+            letter-spacing: 2px;
+            color: rgba(255, 255, 255, 0.8);
         }
 
-        .network-name {
+        /* Network nodes */
+        .network-node {
+            position: absolute;
+            top: 50%; left: 50%;
+            width: 100px; height: 100px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            animation: orbit 20s linear infinite;
+        }
+
+        .network-node:hover {
+            transform: scale(1.2);
+            z-index: 100;
+        }
+
+        .network-node img {
+            width: 70px; height: 70px;
+            border-radius: 50%;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 0 30px rgba(255, 255, 255, 0.5);
+            transition: all 0.3s ease;
+        }
+
+        .network-node:hover img {
+            border-color: rgba(255, 255, 255, 0.8);
+            box-shadow: 0 0 50px rgba(255, 255, 255, 0.9);
+        }
+
+        .network-label {
+            position: absolute;
+            bottom: -30px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 0.7rem;
+            color: rgba(255, 255, 255, 0.7);
+            text-align: center;
+            white-space: nowrap;
             font-family: 'Manrope', sans-serif;
-            font-size: 1.1rem;
-            font-weight: 400;
-            color: var(--text-main);
-            margin-bottom: 0.3rem;
         }
 
         .network-type {
-            font-size: 0.7rem;
-            color: var(--text-muted);
+            font-size: 0.6rem;
+            color: rgba(255, 255, 255, 0.4);
             text-transform: uppercase;
             letter-spacing: 1px;
+        }
+
+        /* Orbit animation for initial circle */
+        @keyframes orbit {
+            from { transform: rotate(0deg) translateX(250px) rotate(0deg); }
+            to { transform: rotate(360deg) translateX(250px) rotate(-360deg); }
+        }
+
+        /* Final positions after spreading */
+        .network-node.positioned {
+            animation: none !important;
         }
 
         /* MODAL */
@@ -251,8 +376,8 @@
             top: 0; left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.9);
-            z-index: 1000;
+            background: rgba(0, 0, 0, 0.95);
+            z-index: 10002;
             justify-content: center;
             align-items: center;
             backdrop-filter: blur(10px);
@@ -263,13 +388,14 @@
         }
 
         .modal-content {
-            background: var(--bg);
-            border: 1px solid var(--border);
+            background: linear-gradient(135deg, #1a1a2e 0%, #0a0a0a 100%);
+            border: 2px solid rgba(255, 255, 255, 0.2);
             padding: 3rem;
-            border-radius: 4px;
+            border-radius: 10px;
             max-width: 500px;
             width: 90%;
             position: relative;
+            box-shadow: 0 0 60px rgba(100, 50, 255, 0.3);
         }
 
         .modal-title {
@@ -279,6 +405,7 @@
             letter-spacing: 2px;
             margin-bottom: 1rem;
             color: var(--text-main);
+            text-align: center;
         }
 
         .modal-message {
@@ -286,54 +413,57 @@
             color: var(--text-muted);
             line-height: 1.8;
             margin-bottom: 2rem;
+            text-align: center;
         }
 
         .modal-url {
-            font-size: 0.85rem;
+            font-size: 0.75rem;
             color: #fff;
             word-break: break-all;
             background: rgba(255, 255, 255, 0.05);
             padding: 1rem;
-            border-radius: 4px;
+            border-radius: 8px;
             margin-bottom: 2rem;
-            border: 1px solid var(--border);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
 
         .modal-buttons {
             display: flex;
             gap: 1rem;
-            justify-content: flex-end;
+            justify-content: center;
         }
 
         .modal-btn {
             font-family: 'Syncopate', sans-serif;
-            font-size: 0.75rem;
+            font-size: 0.7rem;
             text-transform: uppercase;
             letter-spacing: 1px;
-            padding: 0.8rem 2rem;
-            border: 1px solid var(--border);
+            padding: 1rem 2.5rem;
+            border: 2px solid var(--border);
             background: transparent;
             color: var(--text-main);
             cursor: pointer;
             transition: all 0.3s ease;
+            border-radius: 5px;
         }
 
         .modal-btn:hover {
             background: rgba(255, 255, 255, 0.1);
-            border-color: rgba(255, 255, 255, 0.3);
+            border-color: rgba(255, 255, 255, 0.5);
+            transform: translateY(-2px);
         }
 
         .modal-btn.primary {
-            background: #fff;
-            color: #000;
-            border-color: #fff;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border-color: #667eea;
         }
 
         .modal-btn.primary:hover {
-            background: rgba(255, 255, 255, 0.9);
+            background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+            box-shadow: 0 5px 20px rgba(102, 126, 234, 0.4);
         }
 
-        /* 5. FOOTER */
+        /* 4. FOOTER */
         footer {
             padding: 2rem;
             text-align: center;
@@ -370,7 +500,6 @@
         }
         .delay-1 { animation-delay: 0.2s; }
         .delay-2 { animation-delay: 0.4s; }
-        .delay-3 { animation-delay: 0.6s; }
 
         @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
 
@@ -382,10 +511,16 @@
             .data-card { padding: 1.5rem; min-height: auto; }
             .wrapper { padding: 2rem 1.5rem; }
             nav { margin-bottom: 4rem; }
-            .network-grid { grid-template-columns: 1fr; }
+            .networks-btn { padding: 1rem 2rem; font-size: 0.75rem; }
             .modal-content { padding: 2rem; }
             .modal-buttons { flex-direction: column; }
             .modal-btn { width: 100%; }
+            .cosmos-center { width: 80px; height: 80px; }
+            .network-node img { width: 50px; height: 50px; }
+            @keyframes orbit {
+                from { transform: rotate(0deg) translateX(150px) rotate(0deg); }
+                to { transform: rotate(360deg) translateX(150px) rotate(-360deg); }
+            }
         }
     </style>
 </head>
@@ -460,67 +595,34 @@
 
         </section>
 
-        <!-- TESTNET SECTION -->
-        <section class="network-section fade-in delay-3">
-            <div class="network-header">Supported Networks // Testnet</div>
-            <div class="network-grid">
-                
-                <div class="network-card" onclick="openModal('Lumera Network', 'https://testnet.ping.pub/lumera/staking/lumeravaloper1q2vr2027lmczswdtpu6lfwk43g7qagxqnf4z8f')">
-                    <img src="https://raw.githubusercontent.com/cosmos/chain-registry/master/testnets/lumeratestnet/images/lumera.png" alt="Lumera Network" class="network-logo">
-                    <div class="network-info">
-                        <div class="network-name">Lumera Network</div>
-                        <div class="network-type">Testnet</div>
-                    </div>
-                </div>
+        <div class="networks-trigger fade-in delay-2">
+            <button class="networks-btn" onclick="openCosmos()">
+                ✦ SUPPORTED NETWORKS ✦
+            </button>
+        </div>
 
-                <div class="network-card" onclick="openModal('Empeiria Network', 'https://testnet.itrocket.net/empeiria/staking/empevaloper17mtrepwqcx058pph67qa8xhe73j5gkyln6eshu')">
-                    <img src="https://raw.githubusercontent.com/cosmos/chain-registry/master/testnets/empeiriatestnets/images/empeiria.png" alt="Empeiria Network" class="network-logo">
-                    <div class="network-info">
-                        <div class="network-name">Empeiria Network</div>
-                        <div class="network-type">Testnet</div>
-                    </div>
-                </div>
+    </div>
 
-            </div>
-        </section>
-
-        <!-- MAINNET SECTION -->
-        <section class="network-section fade-in delay-3">
-            <div class="network-header">Supported Networks // Mainnet</div>
-            <div class="network-grid">
-                
-                <div class="network-card" onclick="openModal('Paxi Network', 'https://ping.pub/paxi/staking/paxivaloper125lpqewly7zlr0k5yqyk2kqk964r658f25wwt4')">
-                    <img src="https://raw.githubusercontent.com/cosmos/chain-registry/master/paxi/images/paxi.png" alt="Paxi Network" class="network-logo">
-                    <div class="network-info">
-                        <div class="network-name">Paxi Network</div>
-                        <div class="network-type">Mainnet</div>
-                    </div>
-                </div>
-
-                <div class="network-card" onclick="openModal('BitBadges Network', 'https://explorer.maouam.xyz/bitbadges-mainnet/staking/bbvaloper1y9ry9xj6xq348jzx54wqd5um8nny7a45nj2c44')">
-                    <img src="https://raw.githubusercontent.com/cosmos/chain-registry/master/bitbadges/images/bitbadgeslogo.png" alt="BitBadges Network" class="network-logo">
-                    <div class="network-info">
-                        <div class="network-name">BitBadges Network</div>
-                        <div class="network-type">Mainnet</div>
-                    </div>
-                </div>
-
-            </div>
-        </section>
-
+    <!-- COSMOS UNIVERSE OVERLAY -->
+    <div class="cosmos-overlay" id="cosmosOverlay">
+        <div class="space-bg"></div>
+        <div class="close-cosmos" onclick="closeCosmos()"></div>
+        <div class="cosmos-center"></div>
+        <div id="networkContainer"></div>
     </div>
 
     <!-- MODAL -->
     <div class="modal" id="linkModal">
         <div class="modal-content">
-            <div class="modal-title">External Link Confirmation</div>
+            <div class="modal-title">🚀 Entering Hyperspace</div>
             <div class="modal-message">
-                You are about to visit an external explorer page for <strong id="networkName"></strong>. Do you want to proceed?
+                Ready to explore <strong id="networkName"></strong>?<br>
+                This portal will transport you to the network explorer.
             </div>
             <div class="modal-url" id="modalUrl"></div>
             <div class="modal-buttons">
-                <button class="modal-btn" onclick="closeModal()">Cancel</button>
-                <button class="modal-btn primary" onclick="confirmLink()">Open Link</button>
+                <button class="modal-btn" onclick="closeModal()">Stay Here</button>
+                <button class="modal-btn primary" onclick="confirmLink()">Launch 🚀</button>
             </div>
         </div>
     </div>
@@ -535,7 +637,88 @@
     </footer>
 
     <script>
+        const networks = [
+            {
+                name: 'Lumera Network',
+                type: 'Testnet',
+                logo: 'https://raw.githubusercontent.com/cosmos/chain-registry/master/testnets/lumeratestnet/images/lumera.png',
+                url: 'https://testnet.ping.pub/lumera/staking/lumeravaloper1q2vr2027lmczswdtpu6lfwk43g7qagxqnf4z8f'
+            },
+            {
+                name: 'Empeiria Network',
+                type: 'Testnet',
+                logo: 'https://raw.githubusercontent.com/cosmos/chain-registry/master/testnets/empeiriatestnets/images/empeiria.png',
+                url: 'https://testnet.itrocket.net/empeiria/staking/empevaloper17mtrepwqcx058pph67qa8xhe73j5gkyln6eshu'
+            },
+            {
+                name: 'Paxi Network',
+                type: 'Mainnet',
+                logo: 'https://raw.githubusercontent.com/cosmos/chain-registry/master/paxi/images/paxi.png',
+                url: 'https://ping.pub/paxi/staking/paxivaloper125lpqewly7zlr0k5yqyk2kqk964r658f25wwt4'
+            },
+            {
+                name: 'BitBadges Network',
+                type: 'Mainnet',
+                logo: 'https://raw.githubusercontent.com/cosmos/chain-registry/master/bitbadges/images/bitbadgeslogo.png',
+                url: 'https://explorer.maouam.xyz/bitbadges-mainnet/staking/bbvaloper1y9ry9xj6xq348jzx54wqd5um8nny7a45nj2c44'
+            }
+        ];
+
         let currentLink = '';
+        let animationTimeout;
+
+        function openCosmos() {
+            const overlay = document.getElementById('cosmosOverlay');
+            const container = document.getElementById('networkContainer');
+            
+            overlay.classList.add('active');
+            container.innerHTML = '';
+            
+            // Create network nodes
+            networks.forEach((network, index) => {
+                const node = document.createElement('div');
+                node.className = 'network-node';
+                node.style.animationDelay = `${index * 0.5}s`;
+                node.innerHTML = `
+                    <img src="${network.logo}" alt="${network.name}">
+                    <div class="network-label">
+                        ${network.name}<br>
+                        <span class="network-type">${network.type}</span>
+                    </div>
+                `;
+                node.onclick = () => openModal(network.name, network.url);
+                container.appendChild(node);
+            });
+
+            // After orbiting, spread them out to fixed positions
+            animationTimeout = setTimeout(() => {
+                spreadNetworks();
+            }, 3000);
+        }
+
+        function spreadNetworks() {
+            const nodes = document.querySelectorAll('.network-node');
+            const positions = [
+                { top: '20%', left: '20%' },
+                { top: '20%', left: '75%' },
+                { top: '70%', left: '20%' },
+                { top: '70%', left: '75%' }
+            ];
+
+            nodes.forEach((node, index) => {
+                node.classList.add('positioned');
+                node.style.top = positions[index].top;
+                node.style.left = positions[index].left;
+                node.style.transform = 'translate(-50%, -50%)';
+                node.style.transition = 'all 1.5s cubic-bezier(0.34, 1.56, 0.64, 1)';
+            });
+        }
+
+        function closeCosmos() {
+            const overlay = document.getElementById('cosmosOverlay');
+            overlay.classList.remove('active');
+            clearTimeout(animationTimeout);
+        }
 
         function openModal(networkName, url) {
             currentLink = url;
@@ -566,7 +749,11 @@
         // Close modal with ESC key
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') {
-                closeModal();
+                if (document.getElementById('linkModal').classList.contains('active')) {
+                    closeModal();
+                } else if (document.getElementById('cosmosOverlay').classList.contains('active')) {
+                    closeCosmos();
+                }
             }
         });
     </script>
