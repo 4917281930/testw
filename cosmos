@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cosmos Animation Test</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background: #000;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: Arial, sans-serif;
+            overflow: hidden;
+        }
+
+        .container {
+            position: relative;
+            width: 100vw;
+            height: 100vh;
+        }
+
+        /* Trung tâm COSMOS */
+        .cosmos-center {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 120px;
+            height: 120px;
+            border: 3px solid rgba(255, 255, 255, 0.5);
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(100, 50, 255, 0.5), transparent);
+            box-shadow: 0 0 60px rgba(100, 50, 255, 0.8);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            letter-spacing: 2px;
+            z-index: 10;
+        }
+
+        /* Network nodes */
+        .network {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: 3px solid rgba(255, 255, 255, 0.8);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            box-shadow: 0 0 20px rgba(102, 126, 234, 0.8);
+            z-index: 5;
+            margin-left: -30px;
+            margin-top: -30px;
+        }
+
+        /* Giai đoạn 1: Bay vòng tròn */
+        @keyframes orbit0 {
+            from { 
+                transform: rotate(0deg) translateX(100px) rotate(0deg);
+            }
+            to { 
+                transform: rotate(360deg) translateX(100px) rotate(-360deg);
+            }
+        }
+        
+        @keyframes orbit90 {
+            from { 
+                transform: rotate(90deg) translateX(100px) rotate(-90deg);
+            }
+            to { 
+                transform: rotate(450deg) translateX(100px) rotate(-450deg);
+            }
+        }
+        
+        @keyframes orbit180 {
+            from { 
+                transform: rotate(180deg) translateX(100px) rotate(-180deg);
+            }
+            to { 
+                transform: rotate(540deg) translateX(100px) rotate(-540deg);
+            }
+        }
+        
+        @keyframes orbit270 {
+            from { 
+                transform: rotate(270deg) translateX(100px) rotate(-270deg);
+            }
+            to { 
+                transform: rotate(630deg) translateX(100px) rotate(-630deg);
+            }
+        }
+
+        .network.phase1[data-angle="0"] { animation: orbit0 4s linear infinite; }
+        .network.phase1[data-angle="90"] { animation: orbit90 4s linear infinite; }
+        .network.phase1[data-angle="180"] { animation: orbit180 4s linear infinite; }
+        .network.phase1[data-angle="270"] { animation: orbit270 4s linear infinite; }
+
+        /* Hố đen */
+        .black-hole {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 80px;
+            height: 80px;
+            margin-left: -40px;
+            margin-top: -40px;
+            border-radius: 50%;
+            background: radial-gradient(circle, #000000 0%, #1a0033 40%, #000000 100%);
+            box-shadow: 
+                0 0 40px rgba(0, 0, 0, 0.9),
+                inset 0 0 30px rgba(138, 43, 226, 0.5),
+                0 0 60px rgba(75, 0, 130, 0.6);
+            z-index: 50;
+            opacity: 0;
+            transform: scale(0);
+            transition: all 0.6s ease-out;
+            animation: blackhole-spin 3s linear infinite;
+        }
+
+        .black-hole.active {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        @keyframes blackhole-spin {
+            0% { transform: scale(1) rotate(0deg); }
+            100% { transform: scale(1) rotate(360deg); }
+        }
+
+        .black-hole::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 120%;
+            height: 120%;
+            margin-left: -60%;
+            margin-top: -60%;
+            border-radius: 50%;
+            border: 2px solid rgba(138, 43, 226, 0.3);
+            animation: pulse-ring 1.5s ease-out infinite;
+        }
+
+        @keyframes pulse-ring {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(1.5); opacity: 0; }
+        }
+
+        /* Giai đoạn 2: Gom về giữa - có transition mượt */
+        .network.phase2 {
+            animation: none !important;
+            transition: all 1.2s ease-out;
+            transform: translate(0, 0);
+        }
+
+        /* Ẩn networks khi bị hút vào */
+        .network.phase2.hidden {
+            opacity: 0;
+            transform: translate(0, 0) scale(0);
+        }
+
+        /* Hố đen */
+        .black-hole {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 80px;
+            height: 80px;
+            margin-left: -40px;
+            margin-top: -40px;
+            border-radius: 50%;
+            background: radial-gradient(circle, #000000 0%, #1a0033 40%, #000000 100%);
+            box-shadow: 
+                0 0 40px rgba(0, 0, 0, 0.9),
+                inset 0 0 30px rgba(138, 43, 226, 0.5),
+                0 0 60px rgba(75, 0, 130, 0.6);
+            z-index: 50;
+            opacity: 0;
+            transform: scale(0);
+            transition: all 0.6s ease-out;
+            animation: blackhole-spin 3s linear infinite;
+        }
+
+        .black-hole.active {
+            opacity: 1;
+            transform: scale(1);
+        }
+
+        @keyframes blackhole-spin {
+            0% { transform: scale(1) rotate(0deg); }
+            100% { transform: scale(1) rotate(360deg); }
+        }
+
+        .black-hole::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 120%;
+            height: 120%;
+            margin-left: -60%;
+            margin-top: -60%;
+            border-radius: 50%;
+            border: 2px solid rgba(138, 43, 226, 0.3);
+            animation: pulse-ring 1.5s ease-out infinite;
+        }
+
+        @keyframes pulse-ring {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(1.5); opacity: 0; }
+        }
+
+        /* Giai đoạn 3: Bung ra - đứng trên viền tròn */
+        .network.phase3 {
+            animation: none !important;
+            transition: all 1.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+
+        /* Control buttons */
+        .controls {
+            position: fixed;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            z-index: 100;
+        }
+
+        button {
+            padding: 10px 20px;
+            background: rgba(255, 255, 255, 0.2);
+            border: 2px solid white;
+            color: white;
+            cursor: pointer;
+            border-radius: 5px;
+            font-weight: bold;
+            backdrop-filter: blur(10px);
+        }
+
+        button:hover {
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .info {
+            position: fixed;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            color: white;
+            font-size: 18px;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 15px 30px;
+            border-radius: 10px;
+            z-index: 100;
+            text-align: center;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .cosmos-center {
+                width: 80px;
+                height: 80px;
+                font-size: 12px;
+            }
+
+            .network {
+                width: 45px;
+                height: 45px;
+                margin-left: -22.5px;
+                margin-top: -22.5px;
+                font-size: 14px;
+            }
+
+            @keyframes orbit0 {
+                from { transform: rotate(0deg) translateX(80px) rotate(0deg); }
+                to { transform: rotate(360deg) translateX(80px) rotate(-360deg); }
+            }
+            
+            @keyframes orbit90 {
+                from { transform: rotate(90deg) translateX(80px) rotate(-90deg); }
+                to { transform: rotate(450deg) translateX(80px) rotate(-450deg); }
+            }
+            
+            @keyframes orbit180 {
+                from { transform: rotate(180deg) translateX(80px) rotate(-180deg); }
+                to { transform: rotate(540deg) translateX(80px) rotate(-540deg); }
+            }
+            
+            @keyframes orbit270 {
+                from { transform: rotate(270deg) translateX(80px) rotate(-270deg); }
+                to { transform: rotate(630deg) translateX(80px) rotate(-630deg); }
+            }
+
+            .info {
+                font-size: 14px;
+                padding: 10px 20px;
+            }
+
+            button {
+                padding: 8px 16px;
+                font-size: 14px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="controls">
+        <button onclick="restart()">🔄 Restart Animation</button>
+    </div>
+
+    <div class="container">
+        <!-- Trung tâm COSMOS -->
+        <div class="cosmos-center">COSMOS</div>
+
+        <!-- Hố đen (ẩn ban đầu) -->
+        <div class="black-hole" id="blackHole"></div>
+
+        <!-- 4 Networks -->
+        <div class="network phase1" data-angle="0">1</div>
+        <div class="network phase1" data-angle="90">2</div>
+        <div class="network phase1" data-angle="180">3</div>
+        <div class="network phase1" data-angle="270">4</div>
+    </div>
+
+    <div class="info" id="info">Phase 1: Orbiting around COSMOS (3s)...</div>
+
+    <script>
+        function restart() {
+            const networks = document.querySelectorAll('.network');
+            const blackHole = document.getElementById('blackHole');
+            
+            // Reset hố đen
+            blackHole.classList.remove('active');
+            
+            // Xóa tất cả style inline và reset về phase 1
+            networks.forEach(net => {
+                net.style.animation = '';
+                net.style.transform = '';
+                net.style.transition = '';
+                net.style.opacity = '';
+                net.className = 'network phase1';
+            });
+
+            updateInfo('Phase 1: Orbiting around COSMOS (3s)...');
+
+            // Phase 1 → Phase 2: Gom về giữa (sau 3 giây)
+            setTimeout(() => {
+                gatherToCenter();
+            }, 3000);
+
+            // Phase 2 → Phase 3: Bung ra (sau 4.5 giây)
+            setTimeout(() => {
+                spreadInCircle();
+            }, 4500);
+        }
+
+        function gatherToCenter() {
+            updateInfo('Phase 2: Pulling into black hole (1.5s)...');
+            const networks = document.querySelectorAll('.network');
+            const blackHole = document.getElementById('blackHole');
+            
+            networks.forEach(net => {
+                // Lấy vị trí hiện tại khi đang xoay
+                const computedStyle = window.getComputedStyle(net);
+                const matrix = computedStyle.transform;
+                
+                // Tính toán vị trí hiện tại
+                if (matrix && matrix !== 'none') {
+                    const values = matrix.match(/matrix.*\((.+)\)/)[1].split(', ');
+                    const currentX = parseFloat(values[4]);
+                    const currentY = parseFloat(values[5]);
+                    
+                    // Dừng animation và đặt vị trí hiện tại
+                    net.style.animation = 'none';
+                    net.style.transform = `translate(${currentX}px, ${currentY}px)`;
+                    
+                    // Force reflow
+                    net.offsetHeight;
+                    
+                    // Thêm class phase2
+                    net.className = 'network phase2';
+                    
+                    // Hút vào trung tâm và ẩn đi
+                    setTimeout(() => {
+                        net.style.transform = 'translate(0, 0) scale(0)';
+                        net.style.opacity = '0';
+                    }, 10);
+                } else {
+                    net.className = 'network phase2';
+                    net.style.transform = 'translate(0, 0) scale(0)';
+                    net.style.opacity = '0';
+                }
+            });
+
+            // Hiện hố đen sau khi networks biến mất
+            setTimeout(() => {
+                blackHole.classList.add('active');
+            }, 800);
+        }
+
+        function spreadInCircle() {
+            updateInfo('Phase 3: Spread in circle - DONE! ✅');
+            const networks = document.querySelectorAll('.network');
+            const blackHole = document.getElementById('blackHole');
+            
+            // Ẩn hố đen
+            blackHole.classList.remove('active');
+            
+            // Tính bán kính responsive
+            const isMobile = window.innerWidth <= 768;
+            const radius = isMobile ? 180 : 280;
+            
+            networks.forEach(net => {
+                net.className = 'network phase3';
+                
+                const angle = parseInt(net.getAttribute('data-angle'));
+                const radian = (angle - 90) * (Math.PI / 180);
+                
+                // Tính vị trí trên đường viền tròn
+                const x = Math.cos(radian) * radius;
+                const y = Math.sin(radian) * radius;
+                
+                // Hiện lại networks và bung ra
+                net.style.opacity = '1';
+                net.style.transform = `translate(${x}px, ${y}px) scale(1)`;
+            });
+        }
+
+        function updateInfo(text) {
+            document.getElementById('info').textContent = text;
+        }
+
+        // Auto start khi load trang
+        window.addEventListener('load', () => {
+            restart();
+        });
+
+        // Responsive: tính lại khi resize
+        let resizeTimeout;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(() => {
+                const networks = document.querySelectorAll('.network.phase3');
+                if (networks.length > 0) {
+                    spreadInCircle();
+                }
+            }, 100);
+        });
+    </script>
+
+</body>
+</html>
