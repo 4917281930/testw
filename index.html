@@ -252,35 +252,41 @@
         .close-cosmos {
             position: absolute;
             top: 2rem; right: 2rem;
-            width: 50px; height: 50px;
-            border: 2px solid rgba(255, 255, 255, 0.3);
-            background: rgba(0, 0, 0, 0.5);
-            border-radius: 50%;
+            padding: 0.8rem 1.5rem;
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(10px);
+            border-radius: 30px;
             cursor: pointer;
             z-index: 10001;
             display: flex;
             align-items: center;
-            justify-content: center;
+            gap: 0.5rem;
             transition: all 0.3s ease;
+            font-family: 'Syncopate', sans-serif;
+            font-size: 0.65rem;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            color: rgba(255, 255, 255, 0.7);
         }
 
         .close-cosmos:hover {
-            border-color: rgba(255, 255, 255, 0.8);
+            border-color: rgba(255, 255, 255, 0.6);
             background: rgba(255, 255, 255, 0.1);
-            transform: rotate(90deg);
+            transform: translateY(-2px);
+            color: rgba(255, 255, 255, 1);
+            box-shadow: 0 5px 20px rgba(255, 255, 255, 0.2);
         }
 
-        .close-cosmos::before,
-        .close-cosmos::after {
-            content: '';
-            position: absolute;
-            width: 20px;
-            height: 2px;
-            background: white;
+        .close-cosmos::before {
+            content: '←';
+            font-size: 1.2rem;
+            transition: transform 0.3s ease;
         }
 
-        .close-cosmos::before { transform: rotate(45deg); }
-        .close-cosmos::after { transform: rotate(-45deg); }
+        .close-cosmos:hover::before {
+            transform: translateX(-3px);
+        }
 
         /* Cosmos center */
         .cosmos-center {
@@ -603,21 +609,51 @@
             .cosmos-center { width: 80px; height: 80px; font-size: 0.6rem; }
             .network-node img { width: 50px; height: 50px; }
             .network-node { margin-left: -25px; margin-top: -25px; }
+            .network-label { bottom: -30px; font-size: 0.65rem; }
             @keyframes orbit0 {
-                from { transform: rotate(0deg) translateX(80px) rotate(0deg); }
-                to { transform: rotate(360deg) translateX(80px) rotate(-360deg); }
+                from { transform: rotate(0deg) translateX(70px) rotate(0deg); }
+                to { transform: rotate(360deg) translateX(70px) rotate(-360deg); }
             }
             @keyframes orbit90 {
-                from { transform: rotate(90deg) translateX(80px) rotate(-90deg); }
-                to { transform: rotate(450deg) translateX(80px) rotate(-450deg); }
+                from { transform: rotate(90deg) translateX(70px) rotate(-90deg); }
+                to { transform: rotate(450deg) translateX(70px) rotate(-450deg); }
             }
             @keyframes orbit180 {
-                from { transform: rotate(180deg) translateX(80px) rotate(-180deg); }
-                to { transform: rotate(540deg) translateX(80px) rotate(-540deg); }
+                from { transform: rotate(180deg) translateX(70px) rotate(-180deg); }
+                to { transform: rotate(540deg) translateX(70px) rotate(-540deg); }
             }
             @keyframes orbit270 {
-                from { transform: rotate(270deg) translateX(80px) rotate(-270deg); }
-                to { transform: rotate(630deg) translateX(80px) rotate(-630deg); }
+                from { transform: rotate(270deg) translateX(70px) rotate(-270deg); }
+                to { transform: rotate(630deg) translateX(70px) rotate(-630deg); }
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .cosmos-center { width: 70px; height: 70px; font-size: 0.55rem; }
+            .network-node img { width: 45px; height: 45px; }
+            .network-node { margin-left: -22.5px; margin-top: -22.5px; }
+            .network-label { bottom: -28px; font-size: 0.6rem; }
+            .close-cosmos { 
+                padding: 0.6rem 1.2rem; 
+                font-size: 0.6rem;
+                top: 1rem; 
+                right: 1rem; 
+            }
+            @keyframes orbit0 {
+                from { transform: rotate(0deg) translateX(60px) rotate(0deg); }
+                to { transform: rotate(360deg) translateX(60px) rotate(-360deg); }
+            }
+            @keyframes orbit90 {
+                from { transform: rotate(90deg) translateX(60px) rotate(-90deg); }
+                to { transform: rotate(450deg) translateX(60px) rotate(-450deg); }
+            }
+            @keyframes orbit180 {
+                from { transform: rotate(180deg) translateX(60px) rotate(-180deg); }
+                to { transform: rotate(540deg) translateX(60px) rotate(-540deg); }
+            }
+            @keyframes orbit270 {
+                from { transform: rotate(270deg) translateX(60px) rotate(-270deg); }
+                to { transform: rotate(630deg) translateX(60px) rotate(-630deg); }
             }
         }
     </style>
@@ -704,7 +740,7 @@
     <!-- COSMOS UNIVERSE OVERLAY -->
     <div class="cosmos-overlay" id="cosmosOverlay">
         <div class="space-bg"></div>
-        <div class="close-cosmos" onclick="closeCosmos()"></div>
+        <div class="close-cosmos" onclick="closeCosmos()">Back</div>
         <div class="cosmos-center">COSMOS</div>
         <div class="black-hole" id="blackHole"></div>
         <div id="networkContainer"></div>
@@ -769,6 +805,9 @@
         function openCosmos() {
             const overlay = document.getElementById('cosmosOverlay');
             const container = document.getElementById('networkContainer');
+            
+            // Khóa scroll trên body
+            document.body.style.overflow = 'hidden';
             
             overlay.classList.add('active');
             container.innerHTML = '';
@@ -838,8 +877,21 @@
             
             blackHole.classList.remove('active');
             
-            const isMobile = window.innerWidth <= 768;
-            const radius = isMobile ? 180 : 280;
+            // Tối ưu cho các kích thước màn hình
+            const screenWidth = window.innerWidth;
+            const screenHeight = window.innerHeight;
+            let radius;
+            
+            if (screenWidth <= 480) {
+                // Mobile nhỏ
+                radius = Math.min(screenWidth, screenHeight) * 0.28;
+            } else if (screenWidth <= 768) {
+                // Tablet nhỏ
+                radius = Math.min(screenWidth, screenHeight) * 0.32;
+            } else {
+                // Desktop
+                radius = 280;
+            }
             
             nodes.forEach(net => {
                 net.className = 'network-node phase3';
@@ -859,6 +911,9 @@
             const overlay = document.getElementById('cosmosOverlay');
             overlay.classList.remove('active');
             clearTimeout(animationTimeout);
+            
+            // Mở khóa scroll
+            document.body.style.overflow = '';
         }
 
         function openModal(networkName, url) {
