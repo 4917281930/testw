@@ -293,6 +293,14 @@
             background: radial-gradient(circle, rgba(100, 50, 255, 0.3), transparent);
             box-shadow: 0 0 60px rgba(100, 50, 255, 0.5);
             animation: pulse-center 3s infinite;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Syncopate', sans-serif;
+            font-size: 0.7rem;
+            letter-spacing: 2px;
+            color: rgba(255, 255, 255, 0.8);
         }
 
         @keyframes pulse-center {
@@ -300,30 +308,74 @@
             50% { transform: translate(-50%, -50%) scale(1.1); }
         }
 
-        .cosmos-center::before {
-            content: 'COSMOS';
+        /* Black hole */
+        .black-hole {
             position: absolute;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            font-family: 'Syncopate', sans-serif;
-            font-size: 0.7rem;
-            letter-spacing: 2px;
-            color: rgba(255, 255, 255, 0.8);
+            top: 50%;
+            left: 50%;
+            width: 80px;
+            height: 80px;
+            margin-left: -40px;
+            margin-top: -40px;
+            border-radius: 50%;
+            background: radial-gradient(circle, #000000 0%, #1a0033 40%, #000000 100%);
+            box-shadow: 
+                0 0 40px rgba(0, 0, 0, 0.9),
+                inset 0 0 30px rgba(138, 43, 226, 0.5),
+                0 0 60px rgba(75, 0, 130, 0.6);
+            z-index: 50;
+            opacity: 0;
+            transform: scale(0);
+            transition: all 0.6s ease-out;
+        }
+
+        .black-hole.active {
+            opacity: 1;
+            transform: scale(1);
+            animation: blackhole-spin 3s linear infinite;
+        }
+
+        @keyframes blackhole-spin {
+            0% { transform: scale(1) rotate(0deg); }
+            100% { transform: scale(1) rotate(360deg); }
+        }
+
+        .black-hole::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 120%;
+            height: 120%;
+            margin-left: -60%;
+            margin-top: -60%;
+            border-radius: 50%;
+            border: 2px solid rgba(138, 43, 226, 0.3);
+            animation: pulse-ring 1.5s ease-out infinite;
+        }
+
+        @keyframes pulse-ring {
+            0% { transform: scale(1); opacity: 1; }
+            100% { transform: scale(1.5); opacity: 0; }
         }
 
         /* Network nodes */
         .network-node {
             position: absolute;
             top: 50%; left: 50%;
-            width: 100px; height: 100px;
             cursor: pointer;
             transition: transform 0.3s ease;
-            animation: orbit 20s linear infinite;
+            z-index: 5;
+            margin-left: -35px;
+            margin-top: -35px;
         }
 
         .network-node:hover {
-            transform: scale(1.2);
             z-index: 100;
+        }
+
+        .network-node:hover img {
+            transform: scale(1.2);
         }
 
         .network-node img {
@@ -341,7 +393,7 @@
 
         .network-label {
             position: absolute;
-            bottom: -30px;
+            bottom: -35px;
             left: 50%;
             transform: translateX(-50%);
             font-size: 0.7rem;
@@ -358,15 +410,48 @@
             letter-spacing: 1px;
         }
 
-        /* Orbit animation for initial circle */
-        @keyframes orbit {
-            from { transform: rotate(0deg) translateX(250px) rotate(0deg); }
-            to { transform: rotate(360deg) translateX(250px) rotate(-360deg); }
+        /* Phase 1: Orbit animation */
+        @keyframes orbit0 {
+            from { transform: rotate(0deg) translateX(100px) rotate(0deg); }
+            to { transform: rotate(360deg) translateX(100px) rotate(-360deg); }
+        }
+        
+        @keyframes orbit90 {
+            from { transform: rotate(90deg) translateX(100px) rotate(-90deg); }
+            to { transform: rotate(450deg) translateX(100px) rotate(-450deg); }
+        }
+        
+        @keyframes orbit180 {
+            from { transform: rotate(180deg) translateX(100px) rotate(-180deg); }
+            to { transform: rotate(540deg) translateX(100px) rotate(-540deg); }
+        }
+        
+        @keyframes orbit270 {
+            from { transform: rotate(270deg) translateX(100px) rotate(-270deg); }
+            to { transform: rotate(630deg) translateX(100px) rotate(-630deg); }
         }
 
-        /* Final positions after spreading */
-        .network-node.positioned {
+        .network-node.phase1[data-angle="0"] { animation: orbit0 4s linear infinite; }
+        .network-node.phase1[data-angle="90"] { animation: orbit90 4s linear infinite; }
+        .network-node.phase1[data-angle="180"] { animation: orbit180 4s linear infinite; }
+        .network-node.phase1[data-angle="270"] { animation: orbit270 4s linear infinite; }
+
+        /* Phase 2: Pull to center */
+        .network-node.phase2 {
             animation: none !important;
+            transition: all 1.2s ease-out;
+        }
+
+        .network-node.phase2.hidden {
+            opacity: 0;
+            transform: translate(0, 0) scale(0);
+        }
+
+        /* Phase 3: Spread in circle */
+        .network-node.phase3 {
+            animation: none !important;
+            transition: all 1.5s cubic-bezier(0.34, 1.56, 0.64, 1);
+            opacity: 1;
         }
 
         /* MODAL */
@@ -515,11 +600,24 @@
             .modal-content { padding: 2rem; }
             .modal-buttons { flex-direction: column; }
             .modal-btn { width: 100%; }
-            .cosmos-center { width: 80px; height: 80px; }
+            .cosmos-center { width: 80px; height: 80px; font-size: 0.6rem; }
             .network-node img { width: 50px; height: 50px; }
-            @keyframes orbit {
-                from { transform: rotate(0deg) translateX(150px) rotate(0deg); }
-                to { transform: rotate(360deg) translateX(150px) rotate(-360deg); }
+            .network-node { margin-left: -25px; margin-top: -25px; }
+            @keyframes orbit0 {
+                from { transform: rotate(0deg) translateX(80px) rotate(0deg); }
+                to { transform: rotate(360deg) translateX(80px) rotate(-360deg); }
+            }
+            @keyframes orbit90 {
+                from { transform: rotate(90deg) translateX(80px) rotate(-90deg); }
+                to { transform: rotate(450deg) translateX(80px) rotate(-450deg); }
+            }
+            @keyframes orbit180 {
+                from { transform: rotate(180deg) translateX(80px) rotate(-180deg); }
+                to { transform: rotate(540deg) translateX(80px) rotate(-540deg); }
+            }
+            @keyframes orbit270 {
+                from { transform: rotate(270deg) translateX(80px) rotate(-270deg); }
+                to { transform: rotate(630deg) translateX(80px) rotate(-630deg); }
             }
         }
     </style>
@@ -607,7 +705,8 @@
     <div class="cosmos-overlay" id="cosmosOverlay">
         <div class="space-bg"></div>
         <div class="close-cosmos" onclick="closeCosmos()"></div>
-        <div class="cosmos-center"></div>
+        <div class="cosmos-center">COSMOS</div>
+        <div class="black-hole" id="blackHole"></div>
         <div id="networkContainer"></div>
     </div>
 
@@ -674,11 +773,10 @@
             overlay.classList.add('active');
             container.innerHTML = '';
             
-            // Create network nodes
             networks.forEach((network, index) => {
                 const node = document.createElement('div');
-                node.className = 'network-node';
-                node.style.animationDelay = `${index * 0.5}s`;
+                node.className = 'network-node phase1';
+                node.setAttribute('data-angle', (index * 90).toString());
                 node.innerHTML = `
                     <img src="${network.logo}" alt="${network.name}">
                     <div class="network-label">
@@ -690,27 +788,70 @@
                 container.appendChild(node);
             });
 
-            // After orbiting, spread them out to fixed positions
-            animationTimeout = setTimeout(() => {
-                spreadNetworks();
+            setTimeout(() => {
+                gatherToCenter();
             }, 3000);
+
+            animationTimeout = setTimeout(() => {
+                spreadInCircle();
+            }, 4500);
         }
 
-        function spreadNetworks() {
+        function gatherToCenter() {
             const nodes = document.querySelectorAll('.network-node');
-            const positions = [
-                { top: '20%', left: '20%' },
-                { top: '20%', left: '75%' },
-                { top: '70%', left: '20%' },
-                { top: '70%', left: '75%' }
-            ];
+            const blackHole = document.getElementById('blackHole');
+            
+            nodes.forEach(net => {
+                const computedStyle = window.getComputedStyle(net);
+                const matrix = computedStyle.transform;
+                
+                if (matrix && matrix !== 'none') {
+                    const values = matrix.match(/matrix.*\((.+)\)/)[1].split(', ');
+                    const currentX = parseFloat(values[4]);
+                    const currentY = parseFloat(values[5]);
+                    
+                    net.style.animation = 'none';
+                    net.style.transform = `translate(${currentX}px, ${currentY}px)`;
+                    net.offsetHeight;
+                    
+                    net.className = 'network-node phase2';
+                    
+                    setTimeout(() => {
+                        net.style.transform = 'translate(0, 0) scale(0)';
+                        net.style.opacity = '0';
+                    }, 10);
+                } else {
+                    net.className = 'network-node phase2';
+                    net.style.transform = 'translate(0, 0) scale(0)';
+                    net.style.opacity = '0';
+                }
+            });
 
-            nodes.forEach((node, index) => {
-                node.classList.add('positioned');
-                node.style.top = positions[index].top;
-                node.style.left = positions[index].left;
-                node.style.transform = 'translate(-50%, -50%)';
-                node.style.transition = 'all 1.5s cubic-bezier(0.34, 1.56, 0.64, 1)';
+            setTimeout(() => {
+                blackHole.classList.add('active');
+            }, 800);
+        }
+
+        function spreadInCircle() {
+            const nodes = document.querySelectorAll('.network-node');
+            const blackHole = document.getElementById('blackHole');
+            
+            blackHole.classList.remove('active');
+            
+            const isMobile = window.innerWidth <= 768;
+            const radius = isMobile ? 180 : 280;
+            
+            nodes.forEach(net => {
+                net.className = 'network-node phase3';
+                
+                const angle = parseInt(net.getAttribute('data-angle'));
+                const radian = (angle - 90) * (Math.PI / 180);
+                
+                const x = Math.cos(radian) * radius;
+                const y = Math.sin(radian) * radius;
+                
+                net.style.opacity = '1';
+                net.style.transform = `translate(${x}px, ${y}px) scale(1)`;
             });
         }
 
@@ -739,14 +880,12 @@
             }
         }
 
-        // Close modal when clicking outside
         document.getElementById('linkModal').addEventListener('click', function(e) {
             if (e.target === this) {
                 closeModal();
             }
         });
 
-        // Close modal with ESC key
         document.addEventListener('keydown', function(e) {
             if (e.key === 'Escape') {
                 if (document.getElementById('linkModal').classList.contains('active')) {
@@ -755,6 +894,17 @@
                     closeCosmos();
                 }
             }
+        });
+
+        let resizeTimeout;
+        window.addEventListener('resize', () => {
+            clearTimeout(resizeTimeout);
+            resizeTimeout = setTimeout(() => {
+                const nodes = document.querySelectorAll('.network-node.phase3');
+                if (nodes.length > 0) {
+                    spreadInCircle();
+                }
+            }, 100);
         });
     </script>
 
