@@ -76,9 +76,7 @@
 
         /* 1. HEADER */
         nav {
-            display: flex; 
-            justify-content: space-between; 
-            align-items: center;
+            display: flex; justify-content: space-between; align-items: center;
             margin-bottom: 8rem;
             padding-bottom: 1.5rem;
         }
@@ -91,112 +89,11 @@
             font-size: 1.2rem;
         }
 
-        /* HAMBURGER MENU */
-        .hamburger {
-            cursor: pointer;
-            display: flex;
-            flex-direction: column;
-            gap: 6px;
-            z-index: 1001;
-            position: relative;
-            padding: 10px;
+        .status-indicator {
+            display: flex; align-items: center; gap: 8px;
+            font-size: 0.75rem; text-transform: uppercase; letter-spacing: 1px; color: var(--text-muted);
         }
-
-        .hamburger span {
-            width: 25px;
-            height: 2px;
-            background: #fff;
-            transition: all 0.3s ease;
-        }
-
-        .hamburger.active span:nth-child(1) {
-            transform: rotate(45deg) translate(7px, 7px);
-        }
-
-        .hamburger.active span:nth-child(2) {
-            opacity: 0;
-        }
-
-        .hamburger.active span:nth-child(3) {
-            transform: rotate(-45deg) translate(7px, -7px);
-        }
-
-        /* DROPDOWN MENU */
-        .dropdown-menu {
-            position: absolute;
-            top: 80px;
-            right: 2rem;
-            width: 320px;
-            background: rgba(15, 15, 15, 0.95);
-            backdrop-filter: blur(20px);
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            padding: 1.5rem;
-            opacity: 0;
-            visibility: hidden;
-            transform: translateY(-10px);
-            transition: all 0.3s ease;
-            z-index: 1000;
-            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-        }
-
-        .dropdown-menu.active {
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(0);
-        }
-
-        .dropdown-header {
-            font-family: 'Syncopate', sans-serif;
-            font-size: 0.65rem;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-            color: var(--text-muted);
-            margin-bottom: 1.5rem;
-            padding-bottom: 1rem;
-            border-bottom: 1px solid var(--border);
-        }
-
-        .network-item {
-            padding: 1.2rem;
-            cursor: pointer;
-            transition: all 0.3s ease;
-            border-radius: 6px;
-            border: 1px solid transparent;
-            display: flex;
-            align-items: center;
-            gap: 1rem;
-        }
-
-        .network-item:hover {
-            background: rgba(255, 255, 255, 0.05);
-            border-color: var(--border);
-        }
-
-        .network-logo {
-            width: 35px;
-            height: 35px;
-            border-radius: 50%;
-            flex-shrink: 0;
-        }
-
-        .network-info {
-            flex: 1;
-        }
-
-        .network-name {
-            font-family: 'Syncopate', sans-serif;
-            font-size: 0.85rem;
-            margin-bottom: 0.3rem;
-            letter-spacing: 0.5px;
-        }
-
-        .network-status {
-            font-size: 0.65rem;
-            color: var(--text-muted);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
+        .dot { width: 6px; height: 6px; background: #fff; border-radius: 50%; box-shadow: 0 0 10px rgba(255,255,255,0.8); }
 
         /* 2. HERO SECTION */
         .hero {
@@ -219,20 +116,19 @@
         }
 
         .hero-desc {
-            font-size: 1rem; 
-            color: var(--text-muted); 
-            line-height: 1.8;
+            font-size: 1rem; color: var(--text-muted); line-height: 1.8;
             border-left: 1px solid var(--border);
             padding-left: 2rem;
         }
 
-        /* 3. DATA BLOCKS */
+        /* 3. DATA BLOCKS (The Addresses) */
         .data-grid {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
             gap: 1px;
             background: var(--border);
             border: 1px solid var(--border);
+            margin-bottom: 4rem;
         }
 
         .data-card {
@@ -252,192 +148,197 @@
         }
 
         .data-card::before {
-            content: ''; 
-            position: absolute; 
-            top: 0; 
-            left: 0; 
-            width: 100%; 
-            height: 2px;
-            background: #fff; 
-            transform: scaleX(0); 
-            transform-origin: left; 
-            transition: transform 0.4s ease;
+            content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 2px;
+            background: #fff; transform: scaleX(0); transform-origin: left; transition: transform 0.4s ease;
         }
         .data-card:hover::before { transform: scaleX(1); }
 
         .card-label {
             font-family: 'Syncopate', sans-serif;
-            font-size: 0.7rem; 
-            color: var(--text-muted);
-            text-transform: uppercase; 
-            margin-bottom: 1rem;
+            font-size: 0.7rem; color: var(--text-muted);
+            text-transform: uppercase; margin-bottom: 1rem;
         }
 
         .card-value {
             font-family: 'Manrope', sans-serif;
-            font-size: 1.2rem; 
-            color: #fff;
+            font-size: 1.2rem; color: #fff;
             word-break: break-all;
         }
 
         .card-meta {
-            margin-top: auto; 
-            padding-top: 1rem;
-            font-size: 0.75rem; 
-            color: #444;
-            display: flex; 
-            justify-content: space-between;
+            margin-top: auto; padding-top: 1rem;
+            font-size: 0.75rem; color: #444;
+            display: flex; justify-content: space-between;
         }
 
-        /* NETWORK CONTENT PAGES */
-        .network-page {
-            display: none;
-            animation: fadeUp 0.6s ease forwards;
+        /* 4. NETWORK SUPPORT SECTION */
+        .network-section {
+            margin-top: 6rem;
         }
 
-        .network-page.active {
-            display: block;
+        .network-header {
+            font-family: 'Syncopate', sans-serif;
+            font-size: 0.8rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid var(--border);
         }
 
-        .network-hero-banner {
-            display: flex;
-            align-items: center;
+        .network-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
             gap: 2rem;
             margin-bottom: 4rem;
-            padding: 2.5rem;
-            background: linear-gradient(135deg, rgba(60, 20, 180, 0.1) 0%, rgba(0,0,0,0.3) 100%);
-            border: 1px solid var(--border);
-            border-radius: 8px;
         }
 
-        .network-hero-logo {
-            width: 70px;
-            height: 70px;
-            border-radius: 50%;
-            border: 2px solid var(--border);
-        }
-
-        .network-hero-content h2 {
-            font-family: 'Syncopate', sans-serif;
-            font-size: 1.8rem;
-            margin-bottom: 0.5rem;
-            letter-spacing: 1px;
-        }
-
-        .network-hero-content p {
-            color: var(--text-muted);
-            font-size: 0.9rem;
-            line-height: 1.6;
-        }
-
-        .network-info-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 1.5rem;
-            margin-bottom: 3rem;
-        }
-
-        .info-box {
-            padding: 2rem;
+        .network-card {
             background: var(--glass);
             border: 1px solid var(--border);
-            border-radius: 6px;
-            transition: all 0.3s ease;
+            padding: 2rem;
+            border-radius: 4px;
+            transition: all 0.4s ease;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
         }
 
-        .info-box:hover {
+        .network-card:hover {
+            background: rgba(255, 255, 255, 0.06);
             border-color: rgba(255, 255, 255, 0.2);
-            background: rgba(255, 255, 255, 0.05);
             transform: translateY(-2px);
         }
 
-        .info-label {
+        .network-logo {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--border);
+            transition: border-color 0.4s ease;
+        }
+
+        .network-card:hover .network-logo {
+            border-color: rgba(255, 255, 255, 0.4);
+        }
+
+        .network-info {
+            flex: 1;
+        }
+
+        .network-name {
+            font-family: 'Manrope', sans-serif;
+            font-size: 1.1rem;
+            font-weight: 400;
+            color: var(--text-main);
+            margin-bottom: 0.3rem;
+        }
+
+        .network-type {
             font-size: 0.7rem;
+            color: var(--text-muted);
             text-transform: uppercase;
             letter-spacing: 1px;
-            color: var(--text-muted);
-            margin-bottom: 0.8rem;
         }
 
-        .info-value {
-            font-size: 1.4rem;
-            font-weight: 600;
+        /* MODAL */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(10px);
         }
 
-        .content-section {
-            padding: 2rem;
-            background: var(--glass);
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--bg);
             border: 1px solid var(--border);
-            border-radius: 6px;
-            margin-bottom: 2rem;
+            padding: 3rem;
+            border-radius: 4px;
+            max-width: 500px;
+            width: 90%;
+            position: relative;
         }
 
-        .section-title {
+        .modal-title {
             font-family: 'Syncopate', sans-serif;
-            font-size: 0.75rem;
+            font-size: 0.9rem;
             text-transform: uppercase;
             letter-spacing: 2px;
-            color: var(--text-muted);
-            margin-bottom: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--text-main);
         }
 
-        .section-content {
+        .modal-message {
+            font-size: 0.95rem;
             color: var(--text-muted);
             line-height: 1.8;
+            margin-bottom: 2rem;
         }
 
-        .section-content strong {
+        .modal-url {
+            font-size: 0.85rem;
             color: #fff;
+            word-break: break-all;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 1rem;
+            border-radius: 4px;
+            margin-bottom: 2rem;
+            border: 1px solid var(--border);
         }
 
-        .stake-button {
-            display: inline-block;
-            padding: 1rem 2.5rem;
-            background: #fff;
-            color: #000;
-            text-decoration: none;
+        .modal-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: flex-end;
+        }
+
+        .modal-btn {
             font-family: 'Syncopate', sans-serif;
             font-size: 0.75rem;
             text-transform: uppercase;
-            letter-spacing: 2px;
-            transition: all 0.3s ease;
-            border: 2px solid #fff;
-            border-radius: 4px;
-        }
-
-        .stake-button:hover {
-            background: transparent;
-            color: #fff;
-            transform: translateY(-2px);
-            box-shadow: 0 10px 30px rgba(255, 255, 255, 0.1);
-        }
-
-        .back-button {
-            display: inline-flex;
-            align-items: center;
-            gap: 0.5rem;
-            margin-bottom: 2rem;
-            color: var(--text-muted);
-            cursor: pointer;
-            font-size: 0.85rem;
-            text-transform: uppercase;
             letter-spacing: 1px;
-            transition: color 0.3s ease;
-            padding: 0.5rem 0;
+            padding: 0.8rem 2rem;
+            border: 1px solid var(--border);
+            background: transparent;
+            color: var(--text-main);
+            cursor: pointer;
+            transition: all 0.3s ease;
         }
 
-        .back-button:hover {
-            color: #fff;
+        .modal-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            border-color: rgba(255, 255, 255, 0.3);
         }
 
-        /* 4. FOOTER */
+        .modal-btn.primary {
+            background: #fff;
+            color: #000;
+            border-color: #fff;
+        }
+
+        .modal-btn.primary:hover {
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        /* 5. FOOTER */
         footer {
             padding: 2rem;
             text-align: center;
-            font-size: 0.75rem; 
-            color: #888;
-            text-transform: uppercase; 
-            letter-spacing: 2px;
+            font-size: 0.75rem; color: #888;
+            text-transform: uppercase; letter-spacing: 2px;
             margin-top: auto;
             display: flex;
             align-items: center;
@@ -464,61 +365,27 @@
         }
 
         .fade-in {
-            opacity: 0; 
-            transform: translateY(20px);
+            opacity: 0; transform: translateY(20px);
             animation: fadeUp 1s ease forwards;
         }
         .delay-1 { animation-delay: 0.2s; }
         .delay-2 { animation-delay: 0.4s; }
+        .delay-3 { animation-delay: 0.6s; }
 
-        @keyframes fadeUp { 
-            to { 
-                opacity: 1; 
-                transform: translateY(0); 
-            } 
-        }
+        @keyframes fadeUp { to { opacity: 1; transform: translateY(0); } }
 
         /* RESPONSIVE */
         @media (max-width: 768px) {
-            .hero { 
-                grid-template-columns: 1fr; 
-                gap: 2rem; 
-            }
-            .hero-desc { 
-                border-left: none; 
-                padding-left: 0; 
-                border-top: 1px solid var(--border); 
-                padding-top: 2rem; 
-            }
-            h1 { 
-                font-size: 2.2rem; 
-            }
-            .data-card { 
-                padding: 1.5rem; 
-                min-height: auto; 
-            }
-            .wrapper { 
-                padding: 2rem 1.5rem; 
-            }
-            nav { 
-                margin-bottom: 4rem; 
-            }
-            .dropdown-menu {
-                right: 1.5rem;
-                width: calc(100vw - 3rem);
-                max-width: 320px;
-            }
-            .network-hero-banner { 
-                flex-direction: column; 
-                text-align: center; 
-            }
-            .network-hero-logo { 
-                width: 60px; 
-                height: 60px; 
-            }
-            .network-hero-content h2 {
-                font-size: 1.5rem;
-            }
+            .hero { grid-template-columns: 1fr; gap: 2rem; }
+            .hero-desc { border-left: none; padding-left: 0; border-top: 1px solid var(--border); padding-top: 2rem; }
+            h1 { font-size: 2.2rem; }
+            .data-card { padding: 1.5rem; min-height: auto; }
+            .wrapper { padding: 2rem 1.5rem; }
+            nav { margin-bottom: 4rem; }
+            .network-grid { grid-template-columns: 1fr; }
+            .modal-content { padding: 2rem; }
+            .modal-buttons { flex-direction: column; }
+            .modal-btn { width: 100%; }
         }
     </style>
 </head>
@@ -531,145 +398,131 @@
         
         <nav class="fade-in">
             <div class="brand">killerwhales_user</div>
-            <div class="hamburger" onclick="toggleMenu()">
-                <span></span>
-                <span></span>
-                <span></span>
+            <div class="status-indicator">
+                <div class="dot"></div>
+                System Active
             </div>
         </nav>
 
-        <!-- Dropdown Menu -->
-        <div class="dropdown-menu" id="dropdownMenu">
-            <div class="dropdown-header">Available Networks</div>
-            <div class="network-item" onclick="showNetwork('lumera')">
-                <img src="https://raw.githubusercontent.com/cosmos/chain-registry/master/lumera/images/lumera.png" alt="Lumera" class="network-logo" onerror="this.src='https://via.placeholder.com/35/ffffff/000000?text=L'">
-                <div class="network-info">
-                    <div class="network-name">Lumera Testnet</div>
-                    <div class="network-status">Active • Testnet</div>
-                </div>
+        <main class="hero">
+            <h1 class="fade-in delay-1">
+                Immutable infrastructure for decentralized consensus.
+            </h1>
+            <div class="hero-desc fade-in delay-1">
+                Operating high-availability validator nodes. <br>
+                Secured by institutional-grade hardware.<br>
+                Committed to network uptime and integrity.
             </div>
-        </div>
+        </main>
 
-        <!-- HOME CONTENT -->
-        <div id="home-content">
-            <main class="hero">
-                <h1 class="fade-in delay-1">
-                    Immutable infrastructure for decentralized consensus.
-                </h1>
-                <div class="hero-desc fade-in delay-1">
-                    Operating high-availability validator nodes. <br>
-                    Secured by institutional-grade hardware.<br>
-                    Committed to network uptime and integrity.
-                </div>
-            </main>
-
-            <section class="data-grid fade-in delay-2">
-                
-                <div class="data-card">
-                    <div>
-                        <div class="card-label">01 // Processing Center</div>
-                        <div class="card-value">
-                            <a href="https://ordinals.com/inscription/52199732cdedfdb6bef0b6cead32ed9389beb14e40bb554eda6a812f773fac12i0" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: none;">
-                                killerwhales.sats
-                            </a>
-                        </div>
-                    </div>
-                    <div class="card-meta">
-                        <span>STATUS: PRIVATE</span>
-                        <span>TYPE: CORE</span>
-                    </div>
-                </div>
-
-                <div class="data-card">
-                    <div>
-                        <div class="card-label">02 // Research Lab</div>
-                        <div class="card-value">
-                            <a href="https://ordinals.com/inscription/3de542702e8f24ee4c40ece613a49aa0147cfbb772ca88abf68039a3497f123di0" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: none;">
-                                killerwhaleslabs.sats
-                            </a>
-                        </div>
-                    </div>
-                    <div class="card-meta">
-                        <span>STATUS: PRIVATE</span>
-                        <span>TYPE: DEV</span>
-                    </div>
-                </div>
-
-                <div class="data-card">
-                    <div>
-                        <div class="card-label">03 // Current Version</div>
-                        <div class="card-value">v.4.2.0</div>
-                    </div>
-                    <div class="card-meta">
-                        <span>BUILD: STABLE</span>
-                        <span>REGION: GLOBAL</span>
-                    </div>
-                </div>
-
-            </section>
-        </div>
-
-        <!-- LUMERA NETWORK PAGE -->
-        <div id="lumera-page" class="network-page">
-            <div class="back-button" onclick="showHome()">← Back to Home</div>
+        <section class="data-grid fade-in delay-2">
             
-            <div class="network-hero-banner">
-                <img src="https://raw.githubusercontent.com/cosmos/chain-registry/master/lumera/images/lumera.png" alt="Lumera" class="network-hero-logo" onerror="this.src='https://via.placeholder.com/70/ffffff/000000?text=L'">
-                <div class="network-hero-content">
-                    <h2>Lumera Testnet</h2>
-                    <p>Next-generation blockchain infrastructure built for scalability and interoperability</p>
+            <div class="data-card">
+                <div>
+                    <div class="card-label">01 // Processing Center</div>
+                    <div class="card-value">
+                        <a href="https://ordinals.com/inscription/52199732cdedfdb6bef0b6cead32ed9389beb14e40bb554eda6a812f773fac12i0" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: none;">
+                            killerwhales.sats
+                        </a>
+                    </div>
+                </div>
+                <div class="card-meta">
+                    <span>STATUS: PRIVATE</span>
+                    <span>TYPE: CORE</span>
                 </div>
             </div>
 
-            <div class="network-info-grid">
-                <div class="info-box">
-                    <div class="info-label">Network Status</div>
-                    <div class="info-value">Active</div>
+            <div class="data-card">
+                <div>
+                    <div class="card-label">02 // Research Lab</div>
+                    <div class="card-value">
+                        <a href="https://ordinals.com/inscription/3de542702e8f24ee4c40ece613a49aa0147cfbb772ca88abf68039a3497f123di0" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: none;">
+                            killerwhaleslabs.sats
+                        </a>
+                    </div>
                 </div>
-                <div class="info-box">
-                    <div class="info-label">Chain ID</div>
-                    <div class="info-value">lumera-testnet</div>
-                </div>
-                <div class="info-box">
-                    <div class="info-label">Validator Uptime</div>
-                    <div class="info-value">99.9%</div>
-                </div>
-                <div class="info-box">
-                    <div class="info-label">Commission</div>
-                    <div class="info-value">5%</div>
+                <div class="card-meta">
+                    <span>STATUS: PRIVATE</span>
+                    <span>TYPE: DEV</span>
                 </div>
             </div>
 
-            <div class="content-section">
-                <div class="section-title">About Lumera Network</div>
-                <div class="section-content">
-                    Lumera is a cutting-edge blockchain network designed for high-throughput applications and seamless cross-chain interoperability. 
-                    Our validator infrastructure ensures maximum uptime and security for the network, utilizing enterprise-grade hardware and 
-                    redundant systems across multiple geographic locations. Built on Cosmos SDK, Lumera leverages the power of IBC protocol 
-                    to enable efficient communication between different blockchain ecosystems.
+            <div class="data-card">
+                <div>
+                    <div class="card-label">03 // Current Version</div>
+                    <div class="card-value">v.4.2.0</div>
+                </div>
+                <div class="card-meta">
+                    <span>BUILD: STABLE</span>
+                    <span>REGION: GLOBAL</span>
                 </div>
             </div>
 
-            <div class="content-section">
-                <div class="section-title">Technical Specifications</div>
-                <div class="section-content">
-                    <strong>Block Time:</strong> ~5 seconds<br><br>
-                    <strong>Consensus:</strong> Tendermint BFT<br><br>
-                    <strong>Network Type:</strong> Proof of Stake<br><br>
-                    <strong>Staking Token:</strong> LUMERA
-                </div>
-            </div>
+        </section>
 
-            <div style="text-align: center; padding: 2rem 0;">
-                <a href="https://testnet.ping.pub/lumera/staking/lumeravaloper1q2vr2027lmczswdtpu6lfwk43g7qagxqnf4z8f" 
-                   target="_blank" 
-                   rel="noopener noreferrer" 
-                   class="stake-button">
-                    Stake with Our Validator
-                </a>
+        <!-- TESTNET SECTION -->
+        <section class="network-section fade-in delay-3">
+            <div class="network-header">Supported Networks // Testnet</div>
+            <div class="network-grid">
+                
+                <div class="network-card" onclick="openModal('Lumera Network', 'https://testnet.ping.pub/lumera/staking/lumeravaloper1q2vr2027lmczswdtpu6lfwk43g7qagxqnf4z8f')">
+                    <img src="https://raw.githubusercontent.com/cosmos/chain-registry/master/testnets/lumeratestnet/images/lumera.png" alt="Lumera Network" class="network-logo">
+                    <div class="network-info">
+                        <div class="network-name">Lumera Network</div>
+                        <div class="network-type">Testnet</div>
+                    </div>
+                </div>
+
+                <div class="network-card" onclick="openModal('Empeiria Network', 'https://testnet.itrocket.net/empeiria/staking/empevaloper17mtrepwqcx058pph67qa8xhe73j5gkyln6eshu')">
+                    <img src="https://raw.githubusercontent.com/cosmos/chain-registry/master/testnets/empeiriatestnets/images/empeiria.png" alt="Empeiria Network" class="network-logo">
+                    <div class="network-info">
+                        <div class="network-name">Empeiria Network</div>
+                        <div class="network-type">Testnet</div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+        <!-- MAINNET SECTION -->
+        <section class="network-section fade-in delay-3">
+            <div class="network-header">Supported Networks // Mainnet</div>
+            <div class="network-grid">
+                
+                <div class="network-card" onclick="openModal('Paxi Network', 'https://ping.pub/paxi/staking/paxivaloper125lpqewly7zlr0k5yqyk2kqk964r658f25wwt4')">
+                    <img src="https://raw.githubusercontent.com/cosmos/chain-registry/master/paxi/images/paxi.png" alt="Paxi Network" class="network-logo">
+                    <div class="network-info">
+                        <div class="network-name">Paxi Network</div>
+                        <div class="network-type">Mainnet</div>
+                    </div>
+                </div>
+
+                <div class="network-card" onclick="openModal('BitBadges Network', 'https://explorer.maouam.xyz/bitbadges-mainnet/staking/bbvaloper1y9ry9xj6xq348jzx54wqd5um8nny7a45nj2c44')">
+                    <img src="https://raw.githubusercontent.com/cosmos/chain-registry/master/bitbadges/images/bitbadgeslogo.png" alt="BitBadges Network" class="network-logo">
+                    <div class="network-info">
+                        <div class="network-name">BitBadges Network</div>
+                        <div class="network-type">Mainnet</div>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+
+    </div>
+
+    <!-- MODAL -->
+    <div class="modal" id="linkModal">
+        <div class="modal-content">
+            <div class="modal-title">External Link Confirmation</div>
+            <div class="modal-message">
+                You are about to visit an external explorer page for <strong id="networkName"></strong>. Do you want to proceed?
+            </div>
+            <div class="modal-url" id="modalUrl"></div>
+            <div class="modal-buttons">
+                <button class="modal-btn" onclick="closeModal()">Cancel</button>
+                <button class="modal-btn primary" onclick="confirmLink()">Open Link</button>
             </div>
         </div>
-
     </div>
 
     <footer>
@@ -682,52 +535,40 @@
     </footer>
 
     <script>
-        function toggleMenu() {
-            const menu = document.getElementById('dropdownMenu');
-            const hamburger = document.querySelector('.hamburger');
-            
-            menu.classList.toggle('active');
-            hamburger.classList.toggle('active');
+        let currentLink = '';
+
+        function openModal(networkName, url) {
+            currentLink = url;
+            document.getElementById('networkName').textContent = networkName;
+            document.getElementById('modalUrl').textContent = url;
+            document.getElementById('linkModal').classList.add('active');
         }
 
-        // Close menu when clicking outside
-        document.addEventListener('click', function(event) {
-            const menu = document.getElementById('dropdownMenu');
-            const hamburger = document.querySelector('.hamburger');
-            
-            if (!menu.contains(event.target) && !hamburger.contains(event.target)) {
-                menu.classList.remove('active');
-                hamburger.classList.remove('active');
+        function closeModal() {
+            document.getElementById('linkModal').classList.remove('active');
+            currentLink = '';
+        }
+
+        function confirmLink() {
+            if (currentLink) {
+                window.open(currentLink, '_blank', 'noopener,noreferrer');
+                closeModal();
+            }
+        }
+
+        // Close modal when clicking outside
+        document.getElementById('linkModal').addEventListener('click', function(e) {
+            if (e.target === this) {
+                closeModal();
             }
         });
 
-        function showNetwork(networkId) {
-            const homeContent = document.getElementById('home-content');
-            const networkPage = document.getElementById(networkId + '-page');
-            const menu = document.getElementById('dropdownMenu');
-            const hamburger = document.querySelector('.hamburger');
-            
-            homeContent.style.display = 'none';
-            networkPage.classList.add('active');
-            
-            // Close menu
-            menu.classList.remove('active');
-            hamburger.classList.remove('active');
-            
-            // Scroll to top
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
-
-        function showHome() {
-            const homeContent = document.getElementById('home-content');
-            const networkPages = document.querySelectorAll('.network-page');
-            
-            networkPages.forEach(page => page.classList.remove('active'));
-            homeContent.style.display = 'block';
-            
-            // Scroll to top
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-        }
+        // Close modal with ESC key
+        document.addEventListener('keydown', function(e) {
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+        });
     </script>
 
 </body>
