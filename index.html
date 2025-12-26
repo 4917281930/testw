@@ -1,0 +1,690 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>killerwhales_user | Validator Identity</title>
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="https://res.cloudinary.com/dcrod1pop/image/upload/v1764266496/IMG_0035_rg6et1.jpg">
+    <link rel="shortcut icon" href="https://res.cloudinary.com/dcrod1pop/image/upload/v1764266496/IMG_0035_rg6et1.jpg">
+    <link rel="apple-touch-icon" href="https://res.cloudinary.com/dcrod1pop/image/upload/v1764266496/IMG_0035_rg6et1.jpg">
+    
+    <!-- Structured Data for Google -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "killerwhales_user",
+      "url": "https://killerwhalesresearcher.xyz",
+      "logo": "https://res.cloudinary.com/dcrod1pop/image/upload/v1764266496/IMG_0035_rg6et1.jpg"
+    }
+    </script>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;600&family=Syncopate:wght@400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --bg: #050505;
+            --text-main: #ffffff;
+            --text-muted: #888888;
+            --accent: #ffffff;
+            --glass: rgba(255, 255, 255, 0.03);
+            --border: rgba(255, 255, 255, 0.08);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            font-family: 'Manrope', sans-serif;
+            overflow-x: hidden;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        /* --- BACKGROUND FLUID EFFECT (CSS ONLY) --- */
+        .ambient-light {
+            position: fixed;
+            top: 50%; left: 50%;
+            width: 150vw; height: 150vw;
+            background: radial-gradient(circle, rgba(60, 20, 180, 0.15) 0%, rgba(0,0,0,0) 60%);
+            transform: translate(-50%, -50%);
+            z-index: -2;
+            animation: pulse-light 10s infinite alternate;
+        }
+
+        .noise-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.04'/%3E%3C/svg%3E");
+            z-index: -1;
+            pointer-events: none;
+        }
+
+        /* --- LAYOUT --- */
+        .wrapper {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 4rem 2rem;
+            width: 100%;
+            position: relative;
+            z-index: 2;
+        }
+
+        /* 1. HEADER */
+        nav {
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center;
+            margin-bottom: 8rem;
+            padding-bottom: 1.5rem;
+        }
+
+        .brand {
+            font-family: 'Syncopate', sans-serif;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-size: 1.2rem;
+        }
+
+        /* HAMBURGER MENU */
+        .hamburger {
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+            z-index: 1000;
+            position: relative;
+        }
+
+        .hamburger span {
+            width: 30px;
+            height: 2px;
+            background: #fff;
+            transition: all 0.3s ease;
+        }
+
+        .hamburger.active span:nth-child(1) {
+            transform: rotate(45deg) translate(8px, 8px);
+        }
+
+        .hamburger.active span:nth-child(2) {
+            opacity: 0;
+        }
+
+        .hamburger.active span:nth-child(3) {
+            transform: rotate(-45deg) translate(8px, -8px);
+        }
+
+        /* SIDEBAR MENU */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 400px;
+            height: 100vh;
+            background: rgba(10, 10, 10, 0.98);
+            backdrop-filter: blur(20px);
+            border-left: 1px solid var(--border);
+            z-index: 999;
+            transition: right 0.4s ease;
+            overflow-y: auto;
+            padding: 6rem 3rem;
+        }
+
+        .sidebar.active {
+            right: 0;
+        }
+
+        .sidebar-header {
+            font-family: 'Syncopate', sans-serif;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--text-muted);
+            margin-bottom: 3rem;
+        }
+
+        .network-item {
+            margin-bottom: 2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            padding: 1.5rem;
+            border: 1px solid var(--border);
+            background: var(--glass);
+        }
+
+        .network-item:hover {
+            border-color: #fff;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .network-logo {
+            width: 40px;
+            height: 40px;
+            margin-bottom: 1rem;
+            border-radius: 50%;
+        }
+
+        .network-name {
+            font-family: 'Syncopate', sans-serif;
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .network-status {
+            font-size: 0.7rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+
+        /* OVERLAY */
+        .overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 998;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+        }
+
+        .overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        /* 2. HERO SECTION */
+        .hero {
+            display: grid;
+            grid-template-columns: 1.5fr 1fr;
+            gap: 4rem;
+            align-items: flex-end;
+            margin-bottom: 6rem;
+        }
+
+        h1 {
+            font-family: 'Manrope', sans-serif;
+            font-weight: 300;
+            font-size: clamp(2.5rem, 5vw, 4.5rem);
+            line-height: 1.1;
+            letter-spacing: -1px;
+            background: linear-gradient(to right, #fff, #888);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero-desc {
+            font-size: 1rem; 
+            color: var(--text-muted); 
+            line-height: 1.8;
+            border-left: 1px solid var(--border);
+            padding-left: 2rem;
+        }
+
+        /* 3. DATA BLOCKS */
+        .data-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1px;
+            background: var(--border);
+            border: 1px solid var(--border);
+        }
+
+        .data-card {
+            background: var(--bg);
+            padding: 2.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            min-height: 180px;
+            transition: background 0.4s;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .data-card:hover {
+            background: #0a0a0a;
+        }
+
+        .data-card::before {
+            content: ''; 
+            position: absolute; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 2px;
+            background: #fff; 
+            transform: scaleX(0); 
+            transform-origin: left; 
+            transition: transform 0.4s ease;
+        }
+        .data-card:hover::before { transform: scaleX(1); }
+
+        .card-label {
+            font-family: 'Syncopate', sans-serif;
+            font-size: 0.7rem; 
+            color: var(--text-muted);
+            text-transform: uppercase; 
+            margin-bottom: 1rem;
+        }
+
+        .card-value {
+            font-family: 'Manrope', sans-serif;
+            font-size: 1.2rem; 
+            color: #fff;
+            word-break: break-all;
+        }
+
+        .card-meta {
+            margin-top: auto; 
+            padding-top: 1rem;
+            font-size: 0.75rem; 
+            color: #444;
+            display: flex; 
+            justify-content: space-between;
+        }
+
+        /* NETWORK CONTENT PAGES */
+        .network-page {
+            display: none;
+            animation: fadeUp 0.6s ease forwards;
+        }
+
+        .network-page.active {
+            display: block;
+        }
+
+        .network-hero {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+            margin-bottom: 4rem;
+            padding: 3rem;
+            background: var(--glass);
+            border: 1px solid var(--border);
+        }
+
+        .network-hero-logo {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+        }
+
+        .network-hero-content h2 {
+            font-family: 'Syncopate', sans-serif;
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .network-hero-content p {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        .network-info-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .info-box {
+            padding: 2rem;
+            background: var(--glass);
+            border: 1px solid var(--border);
+            transition: all 0.3s ease;
+        }
+
+        .info-box:hover {
+            border-color: #fff;
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .info-label {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: var(--text-muted);
+            margin-bottom: 1rem;
+        }
+
+        .info-value {
+            font-size: 1.5rem;
+            font-weight: 600;
+        }
+
+        .stake-button {
+            display: inline-block;
+            padding: 1.2rem 3rem;
+            background: #fff;
+            color: #000;
+            text-decoration: none;
+            font-family: 'Syncopate', sans-serif;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            transition: all 0.3s ease;
+            border: 2px solid #fff;
+        }
+
+        .stake-button:hover {
+            background: transparent;
+            color: #fff;
+        }
+
+        .back-button {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            color: var(--text-muted);
+            cursor: pointer;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            transition: color 0.3s ease;
+        }
+
+        .back-button:hover {
+            color: #fff;
+        }
+
+        /* 4. FOOTER */
+        footer {
+            padding: 2rem;
+            text-align: center;
+            font-size: 0.75rem; 
+            color: #888;
+            text-transform: uppercase; 
+            letter-spacing: 2px;
+            margin-top: auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1rem;
+        }
+
+        .telegram-logo {
+            width: 20px;
+            height: 20px;
+            opacity: 0.4;
+            transition: opacity 0.3s ease;
+            cursor: pointer;
+        }
+
+        .telegram-logo:hover {
+            opacity: 1;
+        }
+
+        /* ANIMATIONS */
+        @keyframes pulse-light {
+            0% { transform: translate(-50%, -50%) scale(1); opacity: 0.1; }
+            100% { transform: translate(-50%, -50%) scale(1.1); opacity: 0.2; }
+        }
+
+        .fade-in {
+            opacity: 0; 
+            transform: translateY(20px);
+            animation: fadeUp 1s ease forwards;
+        }
+        .delay-1 { animation-delay: 0.2s; }
+        .delay-2 { animation-delay: 0.4s; }
+
+        @keyframes fadeUp { 
+            to { 
+                opacity: 1; 
+                transform: translateY(0); 
+            } 
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .hero { 
+                grid-template-columns: 1fr; 
+                gap: 2rem; 
+            }
+            .hero-desc { 
+                border-left: none; 
+                padding-left: 0; 
+                border-top: 1px solid var(--border); 
+                padding-top: 2rem; 
+            }
+            h1 { 
+                font-size: 2.2rem; 
+            }
+            .data-card { 
+                padding: 1.5rem; 
+                min-height: auto; 
+            }
+            .wrapper { 
+                padding: 2rem 1.5rem; 
+            }
+            nav { 
+                margin-bottom: 4rem; 
+            }
+            .sidebar { 
+                width: 100%; 
+                padding: 4rem 2rem; 
+            }
+            .network-hero { 
+                flex-direction: column; 
+                text-align: center; 
+            }
+            .network-hero-logo { 
+                width: 60px; 
+                height: 60px; 
+            }
+            .network-hero-content h2 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="noise-overlay"></div>
+    <div class="ambient-light"></div>
+
+    <div class="wrapper">
+        
+        <nav class="fade-in">
+            <div class="brand">killerwhales_user</div>
+            <div class="hamburger" onclick="toggleSidebar()">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </nav>
+
+        <!-- Overlay -->
+        <div class="overlay" onclick="toggleSidebar()"></div>
+
+        <!-- Sidebar Menu -->
+        <div class="sidebar">
+            <div class="sidebar-header">Networks</div>
+            <div class="network-item" onclick="showNetwork('lumera')">
+                <img src="https://raw.githubusercontent.com/cosmos/chain-registry/master/lumera/images/lumera.png" alt="Lumera" class="network-logo" onerror="this.src='https://via.placeholder.com/40/ffffff/000000?text=L'">
+                <div class="network-name">Lumera Testnet</div>
+                <div class="network-status">Active • Testnet</div>
+            </div>
+        </div>
+
+        <!-- HOME CONTENT -->
+        <div id="home-content">
+            <main class="hero">
+                <h1 class="fade-in delay-1">
+                    Immutable infrastructure for decentralized consensus.
+                </h1>
+                <div class="hero-desc fade-in delay-1">
+                    Operating high-availability validator nodes. <br>
+                    Secured by institutional-grade hardware.<br>
+                    Committed to network uptime and integrity.
+                </div>
+            </main>
+
+            <section class="data-grid fade-in delay-2">
+                
+                <div class="data-card">
+                    <div>
+                        <div class="card-label">01 // Processing Center</div>
+                        <div class="card-value">
+                            <a href="https://ordinals.com/inscription/52199732cdedfdb6bef0b6cead32ed9389beb14e40bb554eda6a812f773fac12i0" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: none;">
+                                killerwhales.sats
+                            </a>
+                        </div>
+                    </div>
+                    <div class="card-meta">
+                        <span>STATUS: PRIVATE</span>
+                        <span>TYPE: CORE</span>
+                    </div>
+                </div>
+
+                <div class="data-card">
+                    <div>
+                        <div class="card-label">02 // Research Lab</div>
+                        <div class="card-value">
+                            <a href="https://ordinals.com/inscription/3de542702e8f24ee4c40ece613a49aa0147cfbb772ca88abf68039a3497f123di0" target="_blank" rel="noopener noreferrer" style="color: inherit; text-decoration: none;">
+                                killerwhaleslabs.sats
+                            </a>
+                        </div>
+                    </div>
+                    <div class="card-meta">
+                        <span>STATUS: PRIVATE</span>
+                        <span>TYPE: DEV</span>
+                    </div>
+                </div>
+
+                <div class="data-card">
+                    <div>
+                        <div class="card-label">03 // Current Version</div>
+                        <div class="card-value">v.4.2.0</div>
+                    </div>
+                    <div class="card-meta">
+                        <span>BUILD: STABLE</span>
+                        <span>REGION: GLOBAL</span>
+                    </div>
+                </div>
+
+            </section>
+        </div>
+
+        <!-- LUMERA NETWORK PAGE -->
+        <div id="lumera-page" class="network-page">
+            <div class="back-button" onclick="showHome()">← Back to Home</div>
+            
+            <div class="network-hero">
+                <img src="https://raw.githubusercontent.com/cosmos/chain-registry/master/lumera/images/lumera.png" alt="Lumera" class="network-hero-logo" onerror="this.src='https://via.placeholder.com/80/ffffff/000000?text=L'">
+                <div class="network-hero-content">
+                    <h2>Lumera Testnet</h2>
+                    <p>Next-generation blockchain infrastructure built for scalability and interoperability</p>
+                </div>
+            </div>
+
+            <div class="network-info-grid">
+                <div class="info-box">
+                    <div class="info-label">Network Status</div>
+                    <div class="info-value">Active</div>
+                </div>
+                <div class="info-box">
+                    <div class="info-label">Chain ID</div>
+                    <div class="info-value">lumera-testnet</div>
+                </div>
+                <div class="info-box">
+                    <div class="info-label">Validator Uptime</div>
+                    <div class="info-value">99.9%</div>
+                </div>
+                <div class="info-box">
+                    <div class="info-label">Commission</div>
+                    <div class="info-value">5%</div>
+                </div>
+            </div>
+
+            <div class="info-box" style="margin-bottom: 3rem;">
+                <div class="info-label">About Lumera Network</div>
+                <p style="color: var(--text-muted); line-height: 1.8; margin-top: 1rem;">
+                    Lumera is a cutting-edge blockchain network designed for high-throughput applications and seamless cross-chain interoperability. 
+                    Our validator infrastructure ensures maximum uptime and security for the network, utilizing enterprise-grade hardware and 
+                    redundant systems across multiple geographic locations. Built on Cosmos SDK, Lumera leverages the power of IBC protocol 
+                    to enable efficient communication between different blockchain ecosystems.
+                </p>
+            </div>
+
+            <div class="info-box" style="margin-bottom: 3rem;">
+                <div class="info-label">Technical Specifications</div>
+                <div style="color: var(--text-muted); line-height: 2; margin-top: 1rem;">
+                    <strong style="color: #fff;">Block Time:</strong> ~5 seconds<br>
+                    <strong style="color: #fff;">Consensus:</strong> Tendermint BFT<br>
+                    <strong style="color: #fff;">Network Type:</strong> Proof of Stake<br>
+                    <strong style="color: #fff;">Staking Token:</strong> LUMERA
+                </div>
+            </div>
+
+            <div style="text-align: center; padding: 3rem 0;">
+                <a href="https://testnet.ping.pub/lumera/staking/lumeravaloper1q2vr2027lmczswdtpu6lfwk43g7qagxqnf4z8f" 
+                   target="_blank" 
+                   rel="noopener noreferrer" 
+                   class="stake-button">
+                    Stake with Our Validator
+                </a>
+            </div>
+        </div>
+
+    </div>
+
+    <footer>
+        <a href="https://t.me/killerwhales_user" target="_blank" rel="noopener noreferrer">
+            <svg class="telegram-logo" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M12 2C6.48 2 2 6.48 2 12C2 17.52 6.48 22 12 22C17.52 22 22 17.52 22 12C22 6.48 17.52 2 12 2ZM16.64 8.8C16.49 10.38 15.84 14.22 15.51 15.99C15.37 16.74 15.09 16.99 14.83 17.02C14.25 17.07 13.81 16.64 13.25 16.27C12.37 15.69 11.87 15.33 11.02 14.77C10.03 14.12 10.67 13.76 11.24 13.18C11.39 13.03 13.95 10.7 14 10.49C14.0069 10.4582 14.006 10.4252 13.9973 10.3938C13.9886 10.3624 13.9724 10.3337 13.95 10.31C13.89 10.26 13.81 10.28 13.74 10.29C13.65 10.31 12.25 11.24 9.52 13.08C9.12 13.35 8.76 13.49 8.44 13.48C8.08 13.47 7.4 13.28 6.89 13.11C6.26 12.91 5.77 12.8 5.81 12.45C5.83 12.27 6.08 12.09 6.55 11.9C9.47 10.63 11.41 9.79 12.38 9.39C15.16 8.23 15.73 8.03 16.11 8.03C16.19 8.03 16.38 8.05 16.5 8.15C16.6 8.23 16.63 8.34 16.64 8.42C16.63 8.48 16.65 8.66 16.64 8.8Z" fill="white"/>
+            </svg>
+        </a>
+        KILLERWHALES_USER INFRASTRUCTURE
+    </footer>
+
+    <script>
+        function toggleSidebar() {
+            const sidebar = document.querySelector('.sidebar');
+            const overlay = document.querySelector('.overlay');
+            const hamburger = document.querySelector('.hamburger');
+            
+            sidebar.classList.toggle('active');
+            overlay.classList.toggle('active');
+            hamburger.classList.toggle('active');
+        }
+
+        function showNetwork(networkId) {
+            const homeContent = document.getElementById('home-content');
+            const networkPage = document.getElementById(networkId + '-page');
+            
+            homeContent.style.display = 'none';
+            networkPage.classList.add('active');
+            
+            // Close sidebar
+            toggleSidebar();
+            
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function showHome() {
+            const homeContent = document.getElementById('home-content');
+            const networkPages = document.querySelectorAll('.network-page');
+            
+            networkPages.forEach(page => page.classList.remove('active'));
+            homeContent.style.display = 'block';
+            
+            // Scroll to top
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+
+</body>
+</html>
